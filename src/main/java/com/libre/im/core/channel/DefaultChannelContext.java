@@ -15,22 +15,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class DefaultChannelContext implements ChannelContext {
 
-    private final Map<Long, Channel> channelContext = new ConcurrentHashMap<>(1024);
+    private static final Map<Long, Channel> CHANNEL_CONTEXT;
 
+     static {
+         CHANNEL_CONTEXT = new ConcurrentHashMap<>(1024);
+     }
 
     @Override
-    public void addUser(Long userId, Channel channel) {
-        channelContext.put(userId, channel);
+    public void addChannel(Long userId, Channel channel) {
+        CHANNEL_CONTEXT.put(userId, channel);
     }
 
     @Override
-    public void removeUser(Long userId) {
-        channelContext.remove(userId);
+    public void removeChannel(Long userId) {
+        CHANNEL_CONTEXT.remove(userId);
     }
 
     @Override
-    public Channel getUser(Long userId) {
-        return channelContext.get(userId);
+    public Channel getChannel(Long userId) {
+        return CHANNEL_CONTEXT.get(userId);
     }
 
     @Override
@@ -38,9 +41,9 @@ public class DefaultChannelContext implements ChannelContext {
         if (Objects.isNull(channel)) {
             return;
         }
-        for (Map.Entry<Long, Channel> entry : channelContext.entrySet()) {
+        for (Map.Entry<Long, Channel> entry : CHANNEL_CONTEXT.entrySet()) {
             if (channel.equals(entry.getValue())) {
-                channelContext.remove(entry.getKey());
+                CHANNEL_CONTEXT.remove(entry.getKey());
             }
         }
     }

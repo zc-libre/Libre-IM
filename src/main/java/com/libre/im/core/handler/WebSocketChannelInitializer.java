@@ -40,16 +40,15 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
         pipeline.addLast(new HttpServerCodec());
         // 把多个消息转换为一个单一的FullHttpRequest或是FullHttpResponse，
         // 原因是HTTP解码器会在每个HTTP消息中生成多个消息对象HttpRequest/HttpResponse,HttpContent,LastHttpContent
-        pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
+        pipeline.addLast(new HttpObjectAggregator(65536));
         // 主要用于处理大数据流，比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的; 增加之后就不用考虑这个问题了
         pipeline.addLast(new ChunkedWriteHandler());
-
         // WebSocket数据压缩
         pipeline.addLast(new WebSocketServerCompressionHandler());
         // 协议包长度限制
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws", null, true, 10 * 1024));
         // 当连接在60秒内没有接收到消息时，进会触发一个 IdleStateEvent 事件，被 HeartbeatHandler 的 userEventTriggered 方法处理
         pipeline.addLast(new IdleStateHandler(READ_IDLE_TIME_OUT, WRITE_IDLE_TIME_OUT, ALL_IDLE_TIME_OUT, TimeUnit.SECONDS));
-        pipeline.addLast(new TextWebSocketHandler());
+        pipeline.addLast(new WebSocketFrameHandler());
     }
 }

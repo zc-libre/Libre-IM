@@ -22,4 +22,14 @@ public enum MessageType {
     GROUP(1);
 
     private final Integer code;
+
+    public static MessageType getType(Integer code) {
+        MessageType[] values = MessageType.values();
+        for (MessageType message : values) {
+            if (message.getCode().equals(code)) {
+                return message;
+            }
+        }
+        return null;
+    }
 }

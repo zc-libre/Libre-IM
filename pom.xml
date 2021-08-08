@@ -15,6 +15,52 @@
         <netty.version>4.1.66.Final</netty.version>
     </properties>
 
+    <dependencyManagement>
+
+        <dependencies>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-handler -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+               <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-buffer -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+               <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-common -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+               <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-transport -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+               <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-codec -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec</artifactId>
+               <version>${netty.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-resolver -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver</artifactId>
+               <version>${netty.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -24,9 +70,27 @@
         </dependency>
 
         <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-mybatis-boot-starter</artifactId>
+            <version>${libre.dependencies.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-redis-boot-starter</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.23</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.66.Final</version>
+            <version>${netty.version}</version>
         </dependency>
 
         <dependency>

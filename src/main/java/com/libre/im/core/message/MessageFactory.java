@@ -1,23 +1,34 @@
 package com.libre.im.core.message;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import com.libre.core.toolkit.JSONUtil;
+import lombok.experimental.UtilityClass;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author ZC
  * @date 2021/8/6 23:24
  */
+@UtilityClass
 public class MessageFactory {
 
-    private final static Map<Integer, Message> MESSAGE_MAP = Maps.newHashMap();
-
-    static {
-        MESSAGE_MAP.put(MessageType.SINGLE.getCode(), new SingleMessage());
-        MESSAGE_MAP.put(MessageType.GROUP.getCode(), new GroupMessage());
+    public static Message getMessage(String messageJson) {
+        int type = getMessageType(messageJson);
+        if (MessageType.SINGLE.getCode().equals(type)) {
+            return JSONUtil.readValue(messageJson, SingleMessage.class);
+        }else if (MessageType.GROUP.getCode().equals(type)) {
+            return JSONUtil.readValue(messageJson, GroupMessage.class);
+        }
+        return null;
     }
 
-    public static Message getMessage(int type) {
-       return MESSAGE_MAP.get(type);
+    private static int getMessageType(String messageJson) {
+        JsonNode jsonNode = JSONUtil.readTree(messageJson);
+        return jsonNode.findValue("type").intValue();
     }
 }
