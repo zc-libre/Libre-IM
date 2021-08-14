@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author ZC
@@ -13,33 +14,36 @@ import java.util.Map;
 @Component
 public class DefaultSessionManager implements SessionManager {
 
-    private static final Map<String, Session> SESSION_MAP = Maps.newConcurrentMap();
+    private static final Map<Long, Session> SESSION_MAP = Maps.newConcurrentMap();
 
     @Override
-    public Session get(String key) {
-        return SESSION_MAP.get(key);
+    public Session get(Long userId) {
+        return SESSION_MAP.get(userId);
     }
 
     @Override
-    public void put(Session session) {
-        String key = session.getKey();
-        if (StrUtil.isNotEmpty(key)) {
-            SESSION_MAP.put(key, session);
+    public void put(Long userId, Session session) {
+        if (Objects.nonNull(userId)) {
+            SESSION_MAP.put(userId, session);
         }
     }
 
     @Override
-    public void remove(String key) {
-        SESSION_MAP.remove(key);
+    public void remove(Long userId) {
+        SESSION_MAP.remove(userId);
     }
 
     @Override
     public void remove(Session session) {
-         SESSION_MAP.remove(session.getKey());
+        for (Map.Entry<Long, Session> entry : SESSION_MAP.entrySet()) {
+            if (entry.getValue().equals(session)) {
+                SESSION_MAP.remove(entry.getKey());
+            }
+        }
     }
 
     @Override
-    public boolean isExist(String key) {
-        return SESSION_MAP.containsKey(key);
+    public boolean isExist(Long userId) {
+        return SESSION_MAP.containsKey(userId);
     }
 }

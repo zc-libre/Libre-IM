@@ -15,9 +15,7 @@ import com.libre.im.core.session.SessionManager;
 import com.libre.im.core.session.WebsocketSession;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.undertow.websockets.core.WebSocketFrame;
@@ -50,7 +48,6 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         session = new WebsocketSession(ctx);
-        sessionManager.put(session);
         log.debug("channel add {}",ctx.channel());
     }
 
@@ -59,6 +56,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
         log.debug("channel removed: {}", ctx.channel());
         channelContext.removeUserByChannel(ctx.channel());
         session.close();
+        sessionManager.remove(session);
     }
 
 
@@ -74,9 +72,10 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
             Message message = MessageFactory.getMessage(msg.text());
 
             if (Objects.nonNull(message)) {
-                ChatUser from = message.getFrom();
-                Long fromUserId = from.getFromUserId();
-                channelContext.addChannel(fromUserId, ctx.channel());
+                Long sendUserId = message.getSendUserId();
+
+                sessionManager.put(sendUserId,session);
+                channelContext.addChannel(sendUserId, ctx.channel());
                 Integer type = message.getType();
                 MessageHandler handler = messageHandlerFactory.getHandler(MessageType.getType(type));
                 handler.sendMessage(ctx, message);
@@ -107,27 +106,4 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
         // TODO 日志记录
         ctx.close();
     }
-/*
-    *//**
-     * 处理http请求
-     * @param ctx /
-     * @param req /
-     *//*
-    protected  void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req){
-        if (req != null) {
-            HttpMethod method = req.method();
-            // 如果是websocket请求就握手升级
-            if (properties.getWsUri().equalsIgnoreCase(req.uri())) {
-                log.debug(" req instanceof HttpRequest");
-                WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
-                        properties.getWsFactoryUri(), null, false);
-                handshaker = wsFactory.newHandshaker(req);
-                if (handshaker == null) {
-                    WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
-                } else {
-                    handshaker.handshake(ctx.channel(), req);
-                }
-            }
-        }
-    }*/
 }

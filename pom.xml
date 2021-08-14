@@ -59,6 +59,14 @@
                 <artifactId>netty-resolver</artifactId>
                <version>${netty.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.5.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -79,6 +87,11 @@
             <groupId>com.zclibre</groupId>
             <artifactId>libre-redis-boot-starter</artifactId>
             <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>

@@ -27,6 +27,15 @@ public class MessageFactory {
         return null;
     }
 
+    public static Message getMessage(int type) {
+        if (MessageType.SINGLE.getCode().equals(type)) {
+            return new SingleMessage();
+        }else if (MessageType.GROUP.getCode().equals(type)) {
+            return new GroupMessage();
+        }
+        return null;
+    }
+
     private static int getMessageType(String messageJson) {
         JsonNode jsonNode = JSONUtil.readTree(messageJson);
         return jsonNode.findValue("type").intValue();

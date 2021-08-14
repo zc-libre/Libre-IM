@@ -1,5 +1,7 @@
 package com.libre.im.core.session;
 
+import io.netty.channel.Channel;
+
 /**
  * @author ZC
  * @date 2021/8/7 22:10
@@ -50,4 +52,10 @@ public interface Session {
      * @return /
      */
     String getRemoteAddress();
+
+    /**
+     * 获取channel
+     * @return /
+     */
+    Channel getChannel();
 }

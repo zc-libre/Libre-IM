@@ -1,6 +1,5 @@
 package com.libre.im.core.message;
 
-import com.libre.im.core.pojo.ChatUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public abstract class Message implements Serializable {
 
     private Integer type;
 
-    private ChatUser from;
+    private Long sendUserId;
 
     private Integer status;
 

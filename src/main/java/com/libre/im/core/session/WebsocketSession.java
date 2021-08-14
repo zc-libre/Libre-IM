@@ -37,9 +37,15 @@ public class WebsocketSession extends AbstractSession {
         cf.addListener(ChannelFutureListener.CLOSE);
     }
 
+
     @Override
     public String getRemoteAddress() {
         InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         return socketAddress.getAddress().toString();
+    }
+
+    @Override
+    public Channel getChannel() {
+        return this.ctx.channel();
     }
 }

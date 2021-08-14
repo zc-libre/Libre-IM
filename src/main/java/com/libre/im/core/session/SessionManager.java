@@ -8,21 +8,24 @@ public interface SessionManager {
 
     /**
      * 获取session
-     * @param key /
+     * @param userId /
      * @return /
      */
-    Session get(String key);
+    Session get(Long userId);
+
     /**
      * 保存session
+     * @param userId /
      * @param session /
      */
-    void put(Session session);
+    void put(Long userId, Session session);
+
 
     /**
      * 移除session
-     * @param key /
+     * @param userId /
      */
-    void remove(String key);
+    void remove(Long userId);
 
     /**
      * 删除
@@ -32,8 +35,8 @@ public interface SessionManager {
 
     /**
      * 是否存在session
-     * @param key /
+     * @param userId /
      * @return /
      */
-    boolean isExist(String key);
+    boolean isExist(Long userId);
 }
