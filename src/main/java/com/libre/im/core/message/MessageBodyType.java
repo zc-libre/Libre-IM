@@ -14,14 +14,15 @@ public enum MessageBodyType {
     /**
      * 文本
      */
-    TEXT(1),
+    TEXT(1, TextMessage.class),
 
     /**
      * 媒体
      */
-    MEDIA(2);
+    MEDIA(2, MediaMessage.class);
 
     private final Integer code;
+    private final Class<?> clazz;
 
     public static MessageBodyType find(Integer code) {
         MessageBodyType[] values = MessageBodyType.values();

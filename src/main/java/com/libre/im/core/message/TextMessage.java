@@ -1,8 +1,10 @@
 package com.libre.im.core.message;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 /**
  * @author ZC

@@ -42,7 +42,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
         pipeline.addLast(new HttpObjectAggregator(65536));
         pipeline.addLast(new ChunkedWriteHandler());
         pipeline.addLast(new WebSocketServerCompressionHandler());
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ws", null, true, 10 * 1024));
+        pipeline.addLast(new WebSocketServerProtocolHandler(properties.getWsUri(), null, true, 10 * 1024));
 
         pipeline.addLast(protobufMessageDecoder);
         pipeline.addLast(protobufMessageEncoder);

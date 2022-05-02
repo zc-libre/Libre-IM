@@ -8,7 +8,6 @@ import org.springframework.context.event.EventListener;
  */
 public class MessageSendListener {
 
-
     @EventListener
     public void textMessageSend() {
 

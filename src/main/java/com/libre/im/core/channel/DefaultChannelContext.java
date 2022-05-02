@@ -1,6 +1,5 @@
 package com.libre.im.core.channel;
 
-import com.libre.im.core.pojo.ChatUser;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 
@@ -15,21 +14,21 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class DefaultChannelContext implements ChannelContext {
 
-    private static final Map<Long, Channel> CHANNEL_CONTEXT = new ConcurrentHashMap<>(1024);;
+    private  final Map<Long, Channel> channelContext = new ConcurrentHashMap<>(1024);;
 
     @Override
     public void addChannel(Long userId, Channel channel) {
-        CHANNEL_CONTEXT.put(userId, channel);
+        channelContext.put(userId, channel);
     }
 
     @Override
     public void removeChannel(Long userId) {
-        CHANNEL_CONTEXT.remove(userId);
+        channelContext.remove(userId);
     }
 
     @Override
     public Channel getChannel(Long userId) {
-        return CHANNEL_CONTEXT.get(userId);
+        return channelContext.get(userId);
     }
 
     @Override
@@ -37,9 +36,9 @@ public class DefaultChannelContext implements ChannelContext {
         if (Objects.isNull(channel)) {
             return;
         }
-        for (Map.Entry<Long, Channel> entry : CHANNEL_CONTEXT.entrySet()) {
+        for (Map.Entry<Long, Channel> entry : channelContext.entrySet()) {
             if (channel.equals(entry.getValue())) {
-                CHANNEL_CONTEXT.remove(entry.getKey());
+                channelContext.remove(entry.getKey());
             }
         }
     }

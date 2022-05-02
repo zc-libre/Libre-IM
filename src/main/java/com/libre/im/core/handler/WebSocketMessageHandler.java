@@ -33,17 +33,14 @@ public class WebSocketMessageHandler extends SimpleChannelInboundHandler<TextMes
     private final SessionManager sessionManager;
     private WebsocketSession session;
 
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextMessageProto.TextMessage msg) throws Exception {
-        log.info("message received: {}");
-//        sessionManager.put(msg.getSendUserId(), session);
-//        MessageHandler<?> messageHandler = MessageHandlerFactory.getMessageHandler(msg.getMessageBodyType());
-//        MessageMapping mapping = MessageMapping.INSTANCE;
-//        TextMessage textMessage = mapping.sourceToTarget(msg);
-//        messageHandler.resolveMessage(ctx, textMessage);
-        System.out.println(msg);
-
+        log.debug("message received: {}", msg);
+        sessionManager.put(msg.getSendUserId(), session);
+        MessageHandler<?> messageHandler = MessageHandlerFactory.getMessageHandler(msg.getMessageBodyType());
+        MessageMapping mapping = MessageMapping.INSTANCE;
+        TextMessage textMessage = mapping.sourceToTarget(msg);
+        messageHandler.resolveMessage(ctx, textMessage);
     }
 
     @Override
@@ -69,7 +66,5 @@ public class WebSocketMessageHandler extends SimpleChannelInboundHandler<TextMes
         log.error("error: {}", event);
         ctx.close();
     }
-
-
 
 }

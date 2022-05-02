@@ -41,6 +41,10 @@ public class DefaultSessionManager implements SessionManager {
 
     @Override
     public void remove(Session session) {
+        boolean exist = isExist(session.getId());
+        if (!exist) {
+            return;
+        }
         for (Map.Entry<Long, Session> entry : SESSION_MAP.entrySet()) {
             if (entry.getValue().equals(session)) {
                 session.close();

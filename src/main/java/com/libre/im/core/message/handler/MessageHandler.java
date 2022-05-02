@@ -1,7 +1,9 @@
 package com.libre.im.core.message.handler;
 
+import com.google.protobuf.MessageLite;
 import com.libre.im.core.message.Message;
 import com.libre.im.core.message.MessageBodyType;
+import com.libre.im.core.proto.TextMessageProto;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -24,6 +26,7 @@ public interface MessageHandler<T extends Message> {
      */
     T newInstance();
 
+    MessageLite getMessage(Message message);
     /**
      * 消息发送
      *

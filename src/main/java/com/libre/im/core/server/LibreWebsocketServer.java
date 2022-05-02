@@ -31,7 +31,6 @@ public class LibreWebsocketServer {
     private final ProtobufMessageEncoder protobufMessageEncoder;
     private final WebsocketServerProperties properties;
     private final SessionManager sessionManager;
-    private final ObjectMapper objectMapper;
 
     public void run() {
         Integer port = properties.getPort();

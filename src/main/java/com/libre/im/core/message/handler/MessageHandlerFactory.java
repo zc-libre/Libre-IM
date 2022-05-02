@@ -9,7 +9,7 @@ import com.libre.im.core.message.MessageBodyType;
 public class MessageHandlerFactory {
 
     @SuppressWarnings("unchecked")
-    public static <T extends MessageHandler<?>> T getMessageHandler(int type) {
+    public static <T extends MessageHandler<?>> T getMessageHandler(Integer type) {
         MessageBodyType messageBodyType = MessageBodyType.find(type);
         if (MessageBodyType.TEXT.equals(messageBodyType)) {
             return (T) new TextMessageHandler();

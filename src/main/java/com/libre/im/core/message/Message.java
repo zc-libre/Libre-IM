@@ -2,6 +2,7 @@ package com.libre.im.core.message;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.libre.core.time.DatePattern;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
