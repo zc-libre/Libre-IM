@@ -1,6 +1,7 @@
 server:
   port: 9871
-
+  servlet:
+    context-path: /im
 spring:
   application:
     name: Libre-IM
@@ -30,9 +31,11 @@ libre:
   redisson:
     single:
       address: 127.0.0.1:6379
+
 logging:
   level:
-    io.netty: debug
+    com.libre.im: debug
+
 ---
 
 
