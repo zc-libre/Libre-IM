@@ -1,7 +1,9 @@
 package com.libre.im.core.message;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.libre.core.time.DatePattern;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,19 +13,25 @@ import java.time.LocalDateTime;
  * @date 2021/8/1 15:20
  */
 @Data
-@NoArgsConstructor
 public abstract class Message implements Serializable {
 
-    private Long id;
+    protected Long id;
 
-    private Integer type;
+    protected Integer connectType;
 
-    private Long sendUserId;
+    protected Integer messageBodyType;
 
-    private Integer status;
+    protected Long sendUserId;
 
-    private String message;
+    protected Integer status;
 
-    private LocalDateTime createTime;
+    protected Object body;
 
+    protected Long acceptUserId;
+
+    protected Long acceptGroupId;
+
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    protected LocalDateTime createTime;
 }

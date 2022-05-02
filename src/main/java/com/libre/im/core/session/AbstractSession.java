@@ -1,8 +1,14 @@
 package com.libre.im.core.session;
 
-import com.google.common.collect.Maps;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 
-import java.util.Map;
+import java.net.InetSocketAddress;
 
 /**
  * @author ZC
@@ -10,27 +16,24 @@ import java.util.Map;
  */
 public abstract class AbstractSession implements Session {
 
-    private String key;
-    private final Map<Object, Object> attributeMap = Maps.newHashMap();
+    protected final ChannelHandlerContext ctx;
+    protected final Long id;
 
-    @Override
-    public void addAttribute(Object key, Object value) {
-        attributeMap.put(key, value);
+    public AbstractSession(ChannelHandlerContext ctx) {
+        this.ctx = ctx;
+        this.id = IdWorker.getId();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getAttribute(Object key) {
-        return (T) attributeMap.get(key);
+    public String getRemoteAddress() {
+        InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+        return socketAddress.getAddress().toString();
     }
 
     @Override
-    public void setKey(String key) {
-        this.key = key;
+    public void close() {
+        ChannelFuture cf = ctx.writeAndFlush(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FORBIDDEN));
+        cf.addListener(ChannelFutureListener.CLOSE);
     }
 
-    @Override
-    public String getKey() {
-        return key;
-    }
 }

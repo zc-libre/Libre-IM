@@ -1,0 +1,17 @@
+syntax = "proto3";
+package com.libre.im.core.proto;
+option java_package = "com.libre.im.core.proto";
+option java_outer_classname="TextMessageProto";
+
+message TextMessage {
+  uint64 id = 1;
+  uint32 connectType = 2;
+  uint32 messageBodyType = 3;
+  uint64 sendUserId = 4;
+  uint32 status = 5;
+  string body = 6;
+  uint64 acceptUserId = 7;
+  uint64 acceptGroupId = 8;
+  string createTime = 9;
+}
+ 

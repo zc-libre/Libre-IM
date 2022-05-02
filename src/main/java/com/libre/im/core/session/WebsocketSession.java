@@ -1,29 +1,22 @@
 package com.libre.im.core.session;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.google.common.collect.Maps;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
 
-import java.net.InetSocketAddress;
+import java.util.Map;
 
 /**
  * @author ZC
  * @date 2021/8/7 22:32
  */
+
 public class WebsocketSession extends AbstractSession {
 
-    private final ChannelHandlerContext ctx;
-    private final Long id;
+    private final Map<String, Object> attribute = Maps.newConcurrentMap();
 
     public WebsocketSession(ChannelHandlerContext ctx) {
-        this.ctx = ctx;
-        this.id = IdWorker.getId();
+        super(ctx);
     }
 
     @Override
@@ -32,20 +25,27 @@ public class WebsocketSession extends AbstractSession {
     }
 
     @Override
-    public void close() {
-        ChannelFuture cf = ctx.writeAndFlush(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FORBIDDEN));
-        cf.addListener(ChannelFutureListener.CLOSE);
-    }
-
-
-    @Override
-    public String getRemoteAddress() {
-        InetSocketAddress socketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
-        return socketAddress.getAddress().toString();
-    }
-
-    @Override
     public Channel getChannel() {
         return this.ctx.channel();
+    }
+
+    @Override
+    public void setKey(String key) {
+
+    }
+
+    @Override
+    public String getKey() {
+        return null;
+    }
+
+    @Override
+    public void addAttribute(String key, Object value) {
+
+    }
+
+    @Override
+    public <T> T getAttribute(String key) {
+        return null;
     }
 }

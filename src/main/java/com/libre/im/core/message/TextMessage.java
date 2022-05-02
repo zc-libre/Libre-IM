@@ -1,9 +1,8 @@
 package com.libre.im.core.message;
 
-import com.libre.im.core.pojo.ChatUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author ZC
@@ -11,8 +10,12 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-public class SingleMessage extends Message {
+@ToString(callSuper = true)
+public class TextMessage extends Message {
 
-    private Long acceptId;
+    @Override
+    public String getBody() {
+        return (String) body;
+    }
+
 }

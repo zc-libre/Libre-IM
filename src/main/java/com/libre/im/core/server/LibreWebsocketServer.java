@@ -1,22 +1,40 @@
 package com.libre.im.core.server;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.libre.im.core.codec.ProtobufMessageDecoder;
+import com.libre.im.core.codec.ProtobufMessageEncoder;
+import com.libre.im.core.config.WebsocketServerProperties;
 import com.libre.im.core.handler.WebSocketChannelInitializer;
+import com.libre.im.core.message.handler.MessageHandlerFactory;
+import com.libre.im.core.session.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NestedExceptionUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * @author ZC
  * @date 2021/7/31 22:54
  */
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class LibreWebsocketServer {
 
-    public static void run (int port)  {
+    private final ProtobufMessageDecoder protobufMessageDecoder;
+    private final ProtobufMessageEncoder protobufMessageEncoder;
+    private final WebsocketServerProperties properties;
+    private final SessionManager sessionManager;
+    private final ObjectMapper objectMapper;
+
+    public void run() {
+        Integer port = properties.getPort();
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup worker = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
@@ -25,13 +43,17 @@ public class LibreWebsocketServer {
             bootstrap.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(port)
-                    .childHandler(new WebSocketChannelInitializer())
+                    .childHandler(new WebSocketChannelInitializer(protobufMessageEncoder, protobufMessageDecoder, properties, sessionManager))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
-            log.info("websocket server init success");
-
-            ChannelFuture channelFuture = bootstrap.bind().sync();
+            ChannelFuture channelFuture = bootstrap.bind().addListener((ChannelFutureListener) future -> {
+                if (future.isSuccess()) {
+                    log.info("websocket server started on {}", port);
+                } else {
+                    log.error("Cannot start server, follows exception: {}", future.cause().getMessage());
+                }
+            });
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("websocket server error: {}", NestedExceptionUtils.buildMessage(e.getMessage(), e));

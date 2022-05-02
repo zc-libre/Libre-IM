@@ -1,0 +1,28 @@
+<html>
+<head>
+    <script type="text/javascript" src="./bundle.js"></script>
+</head>
+
+<body>
+
+<button onclick="">1111</button>
+<script>
+    <span style="white-space:pre">   </span>
+    <span style="white-space:pre">  </span>
+    var message = new proto.mypackage.myMessage();
+    <span style="white-space:pre">       </span>
+    message.setMyValue(20);
+    <span style="white-space:pre">      </span>
+    var bytes = message.serializeBinary();
+    <span style="white-space:pre">      </span>
+    console.log(bytes);
+
+    <span style="white-space:pre">      </span>
+    var data = proto.mypackage.myMessage.deserializeBinary(bytes);
+    <span style="white-space:pre">      </span>
+    console.log(data);
+    <span style="white-space:pre">      </span>
+    console.log(data.getMyValue());
+</script>
+</body>
+</html>

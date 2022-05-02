@@ -15,11 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class DefaultChannelContext implements ChannelContext {
 
-    private static final Map<Long, Channel> CHANNEL_CONTEXT;
-
-     static {
-         CHANNEL_CONTEXT = new ConcurrentHashMap<>(1024);
-     }
+    private static final Map<Long, Channel> CHANNEL_CONTEXT = new ConcurrentHashMap<>(1024);;
 
     @Override
     public void addChannel(Long userId, Channel channel) {

@@ -1,5 +1,6 @@
 package com.libre.im.core.config;
 
+import com.libre.boot.autoconfigure.SpringContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
@@ -14,6 +15,11 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(WebsocketServerProperties.class)
 @Configuration(proxyBeanMethods = false)
 public class WebSocketServerConfiguration {
+
+    @Bean
+    public SpringContext springContext() {
+        return new SpringContext();
+    }
 
     @Bean
     public ChannelGroup channelGroup() {

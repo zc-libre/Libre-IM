@@ -37,7 +37,7 @@ public interface Session {
      * @param key /
      * @param value /
      */
-    void addAttribute(Object key, Object value);
+    void addAttribute(String key, Object value);
 
     /**
      * 获取属性
@@ -45,7 +45,7 @@ public interface Session {
      * @param <T> /
      * @return /
      */
-    <T> T getAttribute(Object key);
+    <T> T getAttribute(String key);
 
     /**
      * 获取客户端地址

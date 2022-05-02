@@ -9,23 +9,23 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum MessageType {
+public enum MessageBodyType {
 
     /**
-     * 私聊
+     * 文本
      */
-    SINGLE(0),
+    TEXT(1),
 
     /**
-     * 群聊
+     * 媒体
      */
-    GROUP(1);
+    MEDIA(2);
 
     private final Integer code;
 
-    public static MessageType getType(Integer code) {
-        MessageType[] values = MessageType.values();
-        for (MessageType message : values) {
+    public static MessageBodyType find(Integer code) {
+        MessageBodyType[] values = MessageBodyType.values();
+        for (MessageBodyType message : values) {
             if (message.getCode().equals(code)) {
                 return message;
             }

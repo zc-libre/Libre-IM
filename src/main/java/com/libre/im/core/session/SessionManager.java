@@ -16,9 +16,9 @@ public interface SessionManager {
     /**
      * 保存session
      * @param userId /
-     * @param session /
+     * @param Session /
      */
-    void put(Long userId, Session session);
+    void put(Long userId, Session Session);
 
 
     /**
@@ -29,9 +29,9 @@ public interface SessionManager {
 
     /**
      * 删除
-     * @param session /
+     * @param Session /
      */
-    void remove(Session session);
+    void remove(Session Session);
 
     /**
      * 是否存在session
