@@ -12,16 +12,25 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
-        <libre.dependencies.version>1.0.4-SNAPSHOT</libre.dependencies.version>
+        <spring.boot.version>2.6.6</spring.boot.version>
+        <libre.dependencies.version>1.0.4</libre.dependencies.version>
         <netty.version>4.1.76.Final</netty.version>
     </properties>
 
     <dependencyManagement>
+
         <dependencies>
             <dependency>
-                <groupId>com.libre</groupId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.zclibre</groupId>
                 <artifactId>libre-dependencies</artifactId>
-                <version>1.0.4-SNAPSHOT</version>
+                <version>${libre.dependencies.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -32,39 +41,32 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-            <dependency>
-                <groupId>io.protostuff</groupId>
-                <artifactId>protostuff-bom</artifactId>
-                <version>1.8.0</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>com.libre</groupId>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.libre</groupId>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-mybatis-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.libre</groupId>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-redis-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.libre</groupId>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-redisson-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.libre</groupId>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-swagger-boot-starter</artifactId>
         </dependency>
 
@@ -78,20 +80,11 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.protostuff</groupId>-->
-<!--            <artifactId>protostuff-core</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.protostuff</groupId>-->
-<!--            <artifactId>protostuff-core</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.20.1</version>
         </dependency>
-
 
         <dependency>
             <groupId>mysql</groupId>
