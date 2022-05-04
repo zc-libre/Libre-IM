@@ -22,7 +22,7 @@ public abstract class AbstractSession implements Session {
 
     protected final ChannelHandlerContext ctx;
     protected final Long sessionId;
-    protected Channel channel;
+    protected final Channel channel;
 
     protected AbstractSession(ChannelHandlerContext ctx, Long sessionId) {
         Assert.notNull(ctx, "ChannelHandlerContext must not be null");
