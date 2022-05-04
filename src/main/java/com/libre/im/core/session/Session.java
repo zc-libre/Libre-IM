@@ -12,7 +12,7 @@ public interface Session {
      * 获取session Id
      * @return session id
      */
-    Long getId();
+    Long getSessionId();
 
     /**
      * 设置key
@@ -25,7 +25,6 @@ public interface Session {
      * @return /
      */
     String getKey();
-
 
     /**
      * 关闭

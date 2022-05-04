@@ -1,13 +1,13 @@
 package com.libre.im.web.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.libre.im.web.pojo.GroupUser;
+import com.libre.im.web.pojo.ChatFriend;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author ZC
- * @date 2021/8/14 21:41
+ * @author: Libre
+ * @Date: 2022/5/3 2:49 AM
  */
 @Mapper
-public interface GroupUserMapper extends BaseMapper<GroupUser> {
+public interface ChatFriendMapper extends BaseMapper<ChatFriend> {
 }

@@ -30,8 +30,7 @@ public interface MessageHandler<T extends Message> {
     /**
      * 消息发送
      *
-     * @param ctx     {@link ChannelHandlerContext}
      * @param message T
      */
-    void resolveMessage(ChannelHandlerContext ctx, Message message);
+    void resolveMessage(Message message);
 }

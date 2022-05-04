@@ -1,5 +1,8 @@
 package com.libre.im.core.session;
 
+import com.libre.im.core.channel.ChannelContext;
+import io.netty.channel.ChannelHandlerContext;
+
 /**
  * @author ZC
  * @date 2021/8/8 16:27
@@ -8,24 +11,26 @@ public interface SessionManager {
 
     /**
      * 获取session
-     * @param userId /
+     * @param sessionId /
      * @return /
      */
-    Session get(Long userId);
+    Session getSession(Long sessionId);
+
+    Session getSession(ChannelHandlerContext ctx);
 
     /**
      * 保存session
-     * @param userId /
+     * @param sessionId /
      * @param Session /
      */
-    void put(Long userId, Session Session);
+    void put(Long sessionId, Session Session);
 
 
     /**
      * 移除session
-     * @param userId /
+     * @param sessionId /
      */
-    void remove(Long userId);
+    void remove(Long sessionId);
 
     /**
      * 删除
@@ -33,10 +38,13 @@ public interface SessionManager {
      */
     void remove(Session Session);
 
+
+    void remove(ChannelHandlerContext ctx);
+
     /**
      * 是否存在session
-     * @param userId /
+     * @param sessionId /
      * @return /
      */
-    boolean isExist(Long userId);
+    boolean isExist(Long sessionId);
 }

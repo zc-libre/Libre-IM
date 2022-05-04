@@ -3,6 +3,7 @@ package com.libre.im.core.session;
 import com.google.common.collect.Maps;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.AttributeKey;
 
 import java.util.Map;
 
@@ -13,20 +14,22 @@ import java.util.Map;
 
 public class WebsocketSession extends AbstractSession {
 
-    private final Map<String, Object> attribute = Maps.newConcurrentMap();
+    private WebsocketSession(ChannelHandlerContext ctx, Long sessionId) {
+        super(ctx, sessionId);
+    }
 
-    public WebsocketSession(ChannelHandlerContext ctx) {
-        super(ctx);
+    public static WebsocketSession of(ChannelHandlerContext ctx, Long sessionId) {
+        return new WebsocketSession(ctx, sessionId);
     }
 
     @Override
-    public Long getId() {
-        return this.id;
+    public Long getSessionId() {
+        return this.sessionId;
     }
 
     @Override
     public Channel getChannel() {
-        return this.ctx.channel();
+        return channel;
     }
 
     @Override
@@ -41,11 +44,12 @@ public class WebsocketSession extends AbstractSession {
 
     @Override
     public void addAttribute(String key, Object value) {
-
+        channel.attr(AttributeKey.valueOf(key)).set(value);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T getAttribute(String key) {
-        return null;
+      return (T) channel.attr(AttributeKey.valueOf(key)).get();
     }
 }

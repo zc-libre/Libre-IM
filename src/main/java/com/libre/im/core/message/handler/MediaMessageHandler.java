@@ -33,7 +33,7 @@ public class MediaMessageHandler extends AbstractMessageHandler<MediaMessage> {
     }
 
     @Override
-    protected void sendMessage(ChannelHandlerContext ctx, Message message) {
+    protected void sendMessage(Message message) {
 
     }
 }

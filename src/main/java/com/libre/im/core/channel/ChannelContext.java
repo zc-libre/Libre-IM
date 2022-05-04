@@ -10,23 +10,23 @@ public interface ChannelContext {
 
     /**
      * 加入channel
-     * @param userId 用户
+     * @param sessionId 用户
      * @param channel channel
      */
-    void addChannel(Long userId, Channel channel);
+    void addChannel(Long sessionId, Channel channel);
 
     /**
      * 移除channel
-     * @param userId 用户id
+     * @param sessionId 用户id
      */
-    void removeChannel(Long userId);
+    void removeChannel(Long sessionId);
 
     /**
      * 获取channel
      * @param userId 用户
      * @return channel
      */
-    Channel getChannel(Long userId);
+    Channel getChannel(Long sessionId);
 
     /**
      * 删除channel

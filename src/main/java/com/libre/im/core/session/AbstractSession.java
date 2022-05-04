@@ -1,14 +1,18 @@
 package com.libre.im.core.session;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.libre.im.core.constant.LibreIMConstants;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
+import org.springframework.util.Assert;
 
 import java.net.InetSocketAddress;
+import java.util.Optional;
 
 /**
  * @author ZC
@@ -17,11 +21,16 @@ import java.net.InetSocketAddress;
 public abstract class AbstractSession implements Session {
 
     protected final ChannelHandlerContext ctx;
-    protected final Long id;
+    protected final Long sessionId;
+    protected Channel channel;
 
-    public AbstractSession(ChannelHandlerContext ctx) {
+    protected AbstractSession(ChannelHandlerContext ctx, Long sessionId) {
+        Assert.notNull(ctx, "ChannelHandlerContext must not be null");
         this.ctx = ctx;
-        this.id = IdWorker.getId();
+        Assert.notNull(sessionId, "sessionId must not be null");
+        this.sessionId = sessionId;
+        this.channel = ctx.channel();
+        ctx.channel().attr(LibreIMConstants.SERVER_SESSION_ID).set(String.valueOf(sessionId));
     }
 
     @Override
@@ -35,5 +44,4 @@ public abstract class AbstractSession implements Session {
         ChannelFuture cf = ctx.writeAndFlush(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FORBIDDEN));
         cf.addListener(ChannelFutureListener.CLOSE);
     }
-
 }

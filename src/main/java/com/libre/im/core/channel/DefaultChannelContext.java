@@ -17,18 +17,18 @@ public class DefaultChannelContext implements ChannelContext {
     private  final Map<Long, Channel> channelContext = new ConcurrentHashMap<>(1024);;
 
     @Override
-    public void addChannel(Long userId, Channel channel) {
-        channelContext.put(userId, channel);
+    public void addChannel(Long sessionId, Channel channel) {
+        channelContext.computeIfAbsent(sessionId, (key) -> channel);
     }
 
     @Override
-    public void removeChannel(Long userId) {
-        channelContext.remove(userId);
+    public void removeChannel(Long sessionId) {
+        channelContext.remove(sessionId);
     }
 
     @Override
-    public Channel getChannel(Long userId) {
-        return channelContext.get(userId);
+    public Channel getChannel(Long sessionId) {
+        return channelContext.get(sessionId);
     }
 
     @Override

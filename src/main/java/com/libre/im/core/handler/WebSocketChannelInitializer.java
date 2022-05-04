@@ -33,7 +33,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
     private final ProtobufMessageEncoder protobufMessageEncoder;
     private final ProtobufMessageDecoder protobufMessageDecoder;
     private final WebsocketServerProperties properties;
-    private final SessionManager sessionManager;
+    private final WebSocketMessageHandler webSocketMessageHandler;
     @Override
     protected void initChannel(NioSocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
@@ -43,16 +43,14 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
         pipeline.addLast(new ChunkedWriteHandler());
         pipeline.addLast(new WebSocketServerCompressionHandler());
         pipeline.addLast(new WebSocketServerProtocolHandler(properties.getWsUri(), null, true, 10 * 1024));
-
-        pipeline.addLast(protobufMessageDecoder);
-        pipeline.addLast(protobufMessageEncoder);
-        pipeline.addLast(new ProtobufDecoder(TextMessageProto.TextMessage.getDefaultInstance()));
         //解码器，通过Google Protocol Buffers序列化框架动态的切割接收到的ByteBuf
         pipeline.addLast(new ProtobufVarint32FrameDecoder());
         //Google Protocol Buffers 长度属性编码器
         pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
+        pipeline.addLast(protobufMessageDecoder);
+        pipeline.addLast(protobufMessageEncoder);
+        pipeline.addLast(new ProtobufDecoder(TextMessageProto.TextMessage.getDefaultInstance()));
         pipeline.addLast(new IdleStateHandler(properties.getReadIdleTimeOut(), properties.getWriteIdleTimeOut(), properties.getAllIdleTimeOut(), TimeUnit.SECONDS));
-        pipeline.addLast(new WebSocketMessageHandler(properties, sessionManager));
-
+        pipeline.addLast(webSocketMessageHandler);
     }
 }

@@ -1,12 +1,10 @@
 package com.libre.im.core.server;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.libre.im.core.codec.ProtobufMessageDecoder;
 import com.libre.im.core.codec.ProtobufMessageEncoder;
 import com.libre.im.core.config.WebsocketServerProperties;
 import com.libre.im.core.handler.WebSocketChannelInitializer;
-import com.libre.im.core.message.handler.MessageHandlerFactory;
-import com.libre.im.core.session.SessionManager;
+import com.libre.im.core.handler.WebSocketMessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -30,7 +28,7 @@ public class LibreWebsocketServer {
     private final ProtobufMessageDecoder protobufMessageDecoder;
     private final ProtobufMessageEncoder protobufMessageEncoder;
     private final WebsocketServerProperties properties;
-    private final SessionManager sessionManager;
+    private final WebSocketMessageHandler webSocketMessageHandler;
 
     public void run() {
         Integer port = properties.getPort();
@@ -42,7 +40,7 @@ public class LibreWebsocketServer {
             bootstrap.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(port)
-                    .childHandler(new WebSocketChannelInitializer(protobufMessageEncoder, protobufMessageDecoder, properties, sessionManager))
+                    .childHandler(new WebSocketChannelInitializer(protobufMessageEncoder, protobufMessageDecoder, properties, webSocketMessageHandler))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 

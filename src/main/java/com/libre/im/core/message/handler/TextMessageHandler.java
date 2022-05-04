@@ -8,6 +8,7 @@ import com.libre.im.core.message.Message;
 import com.libre.im.core.message.MessageBodyType;
 import com.libre.im.core.message.TextMessage;
 import com.libre.im.core.proto.TextMessageProto;
+import com.libre.im.core.session.Session;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +24,16 @@ import java.util.Optional;
  */
 @Slf4j
 public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
+
     @Override
-    protected void sendMessage(ChannelHandlerContext ctx, Message message) {
+    protected void sendMessage(Message message) {
         Long id = Optional.ofNullable(message.getAcceptUserId())
                 .orElseThrow(() -> new IllegalArgumentException("acceptUserId not find"));
-        Channel channel = channelContext.getChannel(id);
-        if (Objects.isNull(channel)) {
+        Session session = sessionManager.getSession(id);
+        if (Objects.isNull(session)) {
             return;
         }
+        Channel channel = session.getChannel();
         channel.writeAndFlush(write(message));
     }
 
@@ -59,10 +62,12 @@ public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
         textMessage.setId(IdWorker.getId());
         textMessage.setCreateTime(LocalDateTime.now());
         textMessage.setBody(message.getBody());
-        textMessage.setAcceptUserId(message.getSendUserId());
+        textMessage.setAcceptUserId(message.getAcceptUserId());
         textMessage.setMessageBodyType(MessageBodyType.TEXT.getCode());
-        textMessage.setSendUserId(message.getAcceptUserId());
+        textMessage.setSendUserId(message.getSendUserId());
         textMessage.setConnectType(ConnectType.SEND.getType());
         return textMessage;
     }
+
+
 }

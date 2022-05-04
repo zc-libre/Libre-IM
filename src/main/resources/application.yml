@@ -19,9 +19,9 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:p6spy:mysql://127.0.0.1:3306/libre?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/libre_im?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
     username: root
-    password: 504879189
+    password: 123456
     type: com.zaxxer.hikari.HikariDataSource
   mvc:
     path-match:
