@@ -1,8 +1,8 @@
 package com.libre.im.web.service.mapstruct;
 
 import com.libre.core.mapstruct.BaseConvert;
-import com.libre.im.web.pojo.ChatFriend;
-import com.libre.im.web.pojo.ChatUser;
+import com.libre.im.web.pojo.Friend;
+import com.libre.im.web.pojo.LibreUser;
 import com.libre.im.web.vo.ChatFriendVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,10 +13,10 @@ import org.mapstruct.factory.Mappers;
  * @Date: 2022/5/3 7:55 AM
  */
 @Mapper
-public interface ChatFriendMapping extends BaseConvert<ChatFriend, ChatFriendVO> {
+public interface ChatFriendMapping extends BaseConvert<Friend, ChatFriendVO> {
 
     ChatFriendMapping INSTANCE = Mappers.getMapper(ChatFriendMapping.class);
 
     @Mapping(source = "id", target = "friendId")
-    ChatFriendVO chatUserToFriendVO(ChatUser user);
+    ChatFriendVO chatUserToFriendVO(LibreUser user);
 }

@@ -3,14 +3,11 @@ package com.libre.im.core.message.handler;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.libre.im.core.exception.LibreImException;
 import com.libre.im.core.mapstruct.MessageMapping;
-import com.libre.im.core.message.ConnectType;
-import com.libre.im.core.message.Message;
-import com.libre.im.core.message.MessageBodyType;
-import com.libre.im.core.message.TextMessage;
+import com.libre.im.core.message.*;
 import com.libre.im.core.proto.TextMessageProto;
 import com.libre.im.core.session.Session;
+import com.libre.im.web.pojo.ChatMessage;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 
@@ -25,49 +22,57 @@ import java.util.Optional;
 @Slf4j
 public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
 
-    @Override
-    protected void sendMessage(Message message) {
-        Long id = Optional.ofNullable(message.getAcceptUserId())
-                .orElseThrow(() -> new IllegalArgumentException("acceptUserId not find"));
-        Session session = sessionManager.getSession(id);
-        if (Objects.isNull(session)) {
-            return;
-        }
-        Channel channel = session.getChannel();
-        channel.writeAndFlush(write(message));
-    }
+	@Override
+	protected void sendMessage(Message message) {
+		Long id = Optional.ofNullable(message.getAcceptUserId())
+				.orElseThrow(() -> new IllegalArgumentException("acceptUserId not find"));
 
-    @Override
-    public MessageBodyType getMessageType() {
-        return MessageBodyType.TEXT;
-    }
+		TextMessage textMessage = buildTextMessage(message);
+		MessageMapping mapping = MessageMapping.INSTANCE;
+		ChatMessage chatMessage = mapping.convertToChatMessage(textMessage);
 
-    @Override
-    public TextMessageProto.TextMessage getMessage(Message message) {
-        if (ObjectUtils.nullSafeEquals(getMessageType().getCode(), message.getMessageBodyType())) {
-            TextMessage textMessage = (TextMessage) message;
-            MessageMapping mapping = MessageMapping.INSTANCE;
-            return mapping.targetToSource(textMessage);
-        }
-        throw new LibreImException("messageBodyType match failed");
-    }
+		Session session = sessionManager.getSession(id);
+		if (Objects.isNull(session)) {
+			chatMessage.setStatus(MessageStatus.OFFLINE.getStatus());
+			MessagePublisher.publishSaveMessageEvent(chatMessage);
+			return;
+		}
 
-    @Override
-    public TextMessage newInstance() {
-        return new TextMessage();
-    }
+		Channel channel = session.getChannel();
+		channel.writeAndFlush(textMessage);
+		MessagePublisher.publishSaveMessageEvent(chatMessage);
+	}
 
-    private TextMessage write(Message message) {
-        TextMessage textMessage = new TextMessage();
-        textMessage.setId(IdWorker.getId());
-        textMessage.setCreateTime(LocalDateTime.now());
-        textMessage.setBody(message.getBody());
-        textMessage.setAcceptUserId(message.getAcceptUserId());
-        textMessage.setMessageBodyType(MessageBodyType.TEXT.getCode());
-        textMessage.setSendUserId(message.getSendUserId());
-        textMessage.setConnectType(ConnectType.SEND.getType());
-        return textMessage;
-    }
+	@Override
+	public MessageBodyType getMessageType() {
+		return MessageBodyType.TEXT;
+	}
 
+	@Override
+	public TextMessageProto.TextMessage getMessage(Message message) {
+		if (ObjectUtils.nullSafeEquals(getMessageType().getCode(), message.getMessageBodyType())) {
+			TextMessage textMessage = (TextMessage) message;
+			MessageMapping mapping = MessageMapping.INSTANCE;
+			return mapping.targetToSource(textMessage);
+		}
+		throw new LibreImException("messageBodyType match failed");
+	}
+
+	@Override
+	public TextMessage newInstance() {
+		return new TextMessage();
+	}
+
+	public TextMessage buildTextMessage(Message message) {
+		TextMessage textMessage = new TextMessage();
+		textMessage.setId(IdWorker.getId());
+		textMessage.setCreateTime(LocalDateTime.now());
+		textMessage.setBody(message.getBody());
+		textMessage.setAcceptUserId(message.getAcceptUserId());
+		textMessage.setMessageBodyType(MessageBodyType.TEXT.getCode());
+		textMessage.setSendUserId(message.getSendUserId());
+		textMessage.setConnectType(ConnectType.SEND.getType());
+		return textMessage;
+	}
 
 }

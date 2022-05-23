@@ -1,6 +1,5 @@
 package com.libre.im.core.message.handler;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.libre.boot.autoconfigure.SpringContext;
 import com.libre.im.core.channel.ChannelContext;
 import com.libre.im.core.constant.LibreIMConstants;
@@ -11,9 +10,6 @@ import com.libre.im.core.message.TextMessage;
 import com.libre.im.core.session.Session;
 import com.libre.im.core.session.SessionManager;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -36,7 +32,7 @@ public abstract class AbstractMessageHandler<T extends Message> implements Messa
 
     @Override
     public void resolveMessage(Message message) {
-         sendMessage(message);
+        sendMessage(message);
     }
 
     public void sendHeartBeatMessage(Long sessionId) {

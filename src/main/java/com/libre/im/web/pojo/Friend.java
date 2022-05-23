@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("im_friend")
-public class ChatFriend {
+public class Friend {
 
     @TableId
     private Long id;
@@ -24,4 +24,6 @@ public class ChatFriend {
     private Boolean isTop;
 
     private LocalDateTime addTime;
+
+    private LocalDateTime updateTime;
 }

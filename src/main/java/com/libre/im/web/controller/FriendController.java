@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/friend")
 @RequiredArgsConstructor
-public class ChatFriendController {
+public class FriendController {
 
 }

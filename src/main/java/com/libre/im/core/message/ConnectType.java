@@ -9,7 +9,16 @@ public enum ConnectType {
 
     HEART_BEAT(1),
 
-    SEND(2);
+    SEND(2),
+
+
+    RECEIVED(3),
+
+
+    READ(4),
+
+
+    OFFLINE(5);
 
     private final Integer type;
 

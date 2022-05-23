@@ -1,7 +1,7 @@
 package com.libre.im.web.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.libre.im.web.pojo.ChatUser;
+import com.libre.im.web.pojo.LibreUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2021/8/14 21:40
  */
 @Mapper
-public interface ChatUserMapper extends BaseMapper<ChatUser> {
+public interface LibreUserMapper extends BaseMapper<LibreUser> {
 }
