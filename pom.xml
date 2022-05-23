@@ -15,6 +15,7 @@
         <spring.boot.version>2.6.7</spring.boot.version>
         <libre.dependencies.version>1.0.6</libre.dependencies.version>
         <netty.version>4.1.76.Final</netty.version>
+        <protobuf.version>3.20.1</protobuf.version>
     </properties>
 
     <dependencyManagement>
@@ -44,8 +45,6 @@
     </dependencyManagement>
 
     <dependencies>
-
-
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-spring-boot-starter</artifactId>
@@ -83,12 +82,12 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.20.1</version>
+            <version>${protobuf.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
 
         <dependency>
@@ -150,6 +149,11 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>io.spring.javaformat</groupId>
+                <artifactId>spring-javaformat-maven-plugin</artifactId>
+                <version>0.0.31</version>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
