@@ -1,6 +1,5 @@
 package com.libre.im.core.session;
 
-import com.libre.im.core.channel.ChannelContext;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
