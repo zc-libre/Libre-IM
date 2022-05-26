@@ -5,14 +5,23 @@ import com.libre.im.core.message.MediaMessage;
 import com.libre.im.core.message.Message;
 import com.libre.im.core.message.MessageBodyType;
 import com.libre.im.core.proto.TextMessageProto;
-import io.netty.channel.ChannelHandlerContext;
+import com.libre.im.core.session.SessionManager;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 /**
  * @author ZC
  * @date 2021/8/7 14:07
  */
+@Slf4j
+@Component
 public class MediaMessageHandler extends AbstractMessageHandler<MediaMessage> {
+    private final SessionManager sessionManager;
+    public MediaMessageHandler(SessionManager sessionManager) {
+        super(sessionManager);
+        this.sessionManager = sessionManager;
+    }
 
     @Override
     public MessageBodyType getMessageType() {
