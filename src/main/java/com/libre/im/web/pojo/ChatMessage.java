@@ -2,6 +2,8 @@ package com.libre.im.web.pojo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @author: Libre
  * @Date: 2022/5/23 10:13 PM
@@ -21,5 +23,5 @@ public class ChatMessage {
 
     private Integer status;
 
-    private Long createTime;
+    private LocalDateTime createTime;
 }
