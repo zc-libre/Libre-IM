@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2021/8/14 21:40
  */
 @Mapper
-public interface LibreUserMapper extends BaseMapper<LibreUser> {
+public interface SysUserMapper extends BaseMapper<LibreUser> {
 }

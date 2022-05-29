@@ -7,6 +7,10 @@ spring:
     name: Libre-IM
   profiles:
     active: dev
+  cache:
+    type: redis
+    redis:
+      time-to-live: 1h
 
 mybatis-plus:
   global-config:
@@ -23,8 +27,6 @@ spring:
     username: postgres
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      connection-test-query: SELECT 1
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
@@ -38,7 +40,15 @@ libre:
   redisson:
     single:
       address: 127.0.0.1:6379
+  security:
+    jwt-token:
+      secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
+  captcha:
+    enabled: true
 
+logging:
+  level:
+    com.libre: debug
 ---
 
 

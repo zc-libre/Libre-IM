@@ -33,4 +33,11 @@ public class LibreUser {
 
 	private Integer gender;
 
+	private String phone;
+
+	private Boolean enabled;
+
+	private Boolean locked;
+
+
 }

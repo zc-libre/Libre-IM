@@ -7,8 +7,9 @@ import com.libre.im.web.pojo.LibreUser;
  * @author ZC
  * @date 2021/8/14 21:52
  */
-public interface LibreUserService extends IService<LibreUser> {
+public interface SysUserService extends IService<LibreUser> {
 
 	LibreUser findByUsername(String username);
 
+    boolean updateByUsername(String username, LibreUser sysUser);
 }

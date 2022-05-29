@@ -6,9 +6,11 @@ import com.libre.im.core.mapstruct.MessageMapping;
 import com.libre.im.core.message.*;
 import com.libre.im.core.proto.TextMessageProto;
 import com.libre.im.core.session.Session;
+import com.libre.im.core.session.SessionManager;
 import com.libre.im.web.pojo.ChatMessage;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
@@ -20,7 +22,15 @@ import java.util.Optional;
  * @date 2021/8/7 14:06
  */
 @Slf4j
+@Component
 public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
+
+	private final SessionManager sessionManager;
+
+	public TextMessageHandler(SessionManager sessionManager) {
+		super(sessionManager);
+		this.sessionManager = sessionManager;
+	}
 
 	@Override
 	protected void sendMessage(Message message) {
@@ -37,7 +47,6 @@ public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
 			MessagePublisher.publishSaveMessageEvent(chatMessage);
 			return;
 		}
-
 		Channel channel = session.getChannel();
 		channel.writeAndFlush(textMessage);
 		MessagePublisher.publishSaveMessageEvent(chatMessage);
@@ -71,7 +80,7 @@ public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
 		textMessage.setAcceptUserId(message.getAcceptUserId());
 		textMessage.setMessageBodyType(MessageBodyType.TEXT.getCode());
 		textMessage.setSendUserId(message.getSendUserId());
-		textMessage.setConnectType(ConnectType.SEND.getType());
+		textMessage.setConnectType(message.getConnectType());
 		return textMessage;
 	}
 

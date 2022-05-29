@@ -18,6 +18,7 @@ public class MessageFactory {
 		heartBeatMessage.setBody(LibreIMConstants.PONG);
 		heartBeatMessage.setMessageBodyType(MessageBodyType.TEXT.getCode());
 		heartBeatMessage.setConnectType(ConnectType.SEND.getType());
+		heartBeatMessage.setCreateTime(LocalDateTime.now());
 		return heartBeatMessage;
 	}
 

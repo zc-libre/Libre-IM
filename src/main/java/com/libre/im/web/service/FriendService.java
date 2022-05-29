@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface FriendService extends IService<Friend> {
 
-
     List<ChatFriendVO> findListByUserId(Long userId);
 
+    void removeFriend(Long friend);
 }
