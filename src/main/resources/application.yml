@@ -45,6 +45,9 @@ libre:
       secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
   captcha:
     enabled: true
+  swagger:
+    authorization:
+      enabled: true
 
 logging:
   level:

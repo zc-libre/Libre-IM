@@ -1,7 +1,7 @@
 package com.libre.im.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.libre.im.admin.security.pojo.SysRole;
+import com.libre.im.security.pojo.SysRole;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.libre.im.web.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.libre.im.admin.security.pojo.SysRole;
+import com.libre.im.security.pojo.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
