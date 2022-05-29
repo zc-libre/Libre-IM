@@ -1,8 +1,8 @@
 package com.libre.im;
 
-import com.libre.im.core.codec.ProtobufMessageDecoder;
-import com.libre.im.core.codec.ProtobufMessageEncoder;
-import com.libre.im.core.proto.TextMessageProto;
+import com.libre.im.websocket.codec.ProtobufMessageDecoder;
+import com.libre.im.websocket.codec.ProtobufMessageEncoder;
+import com.libre.im.websocket.proto.TextMessageProto;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.embedded.EmbeddedChannel;

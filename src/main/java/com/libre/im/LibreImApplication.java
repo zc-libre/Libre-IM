@@ -1,12 +1,9 @@
 package com.libre.im;
 
-import com.libre.im.core.config.WebsocketServerProperties;
-import com.libre.im.core.server.LibreWebsocketServer;
+import com.libre.im.websocket.server.LibreWebsocketServer;
 import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
