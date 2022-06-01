@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Objects;
+
 /**
  * @author ZC
  * @date 2021/8/14 20:15
@@ -35,9 +37,15 @@ public class LibreUser {
 
 	private String phone;
 
-	private Boolean enabled;
+	private Integer enabled;
 
-	private Boolean locked;
+	private Integer locked;
 
+	public Boolean getEnabled() {
+		return Boolean.FALSE;
+	}
 
+	public Boolean getLocked() {
+		return Boolean.TRUE;
+	}
 }

@@ -18,4 +18,5 @@ public class LibreWebMvcConfiguration implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new AuthUserArgumentResolver());
     }
+
 }

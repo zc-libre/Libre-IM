@@ -1,5 +1,8 @@
 package com.libre.im.security.config;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.libre.im.security.annotation.AnonymousAccess;
 import com.libre.im.security.support.JwtAccessDeniedHandler;
 import com.libre.im.security.support.JwtAuthenticationEntryPoint;
 import com.libre.im.security.jwt.TokenConfigurer;
@@ -26,8 +29,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Libre
@@ -60,7 +62,7 @@ public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
         // 获取匿名标记
-       // Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
+        Set<String> anonymousUrl = getAnonymousUrl(handlerMethodMap);
         List<String> permitAll = properties.getPermitAll();
         http
                 .formLogin().disable()
@@ -101,12 +103,30 @@ public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/file/**").permitAll()
                 // 阿里巴巴 druid
                 .antMatchers("/druid/**").permitAll()
+                .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/captcha").permitAll()
+                .antMatchers(anonymousUrl.toArray(new String[0])).permitAll()
                 .antMatchers(permitAll.toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and().apply(securityConfigurerAdapter());
     }
+
+    private Set<String> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
+        Set<String> anonymousUrls = Sets.newHashSet();
+         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethodMap.entrySet()) {
+             RequestMappingInfo requestMappingInfo = entry.getKey();
+             HandlerMethod handlerMethod = entry.getValue();
+             AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
+             if (Objects.isNull(anonymousAccess) || Objects.isNull(requestMappingInfo.getPatternsCondition())) {
+                 continue;
+             }
+             anonymousUrls.addAll(requestMappingInfo.getPatternsCondition().getPatterns());
+         }
+         return anonymousUrls;
+    }
+
 
     private TokenConfigurer securityConfigurerAdapter() {
         return new TokenConfigurer(tokenProvider, properties, onlineUserService);

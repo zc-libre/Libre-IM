@@ -89,7 +89,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 	public boolean updateLockUser(AuthUserDTO authUser) {
 		Assert.notNull(authUser.getUsername(), "username must not be null");
 		LibreUser sysUser = new LibreUser();
-		sysUser.setLocked(Boolean.TRUE);
+		//sysUser.setLocked(Boolean.TRUE);
 		return userService.updateByUsername(authUser.getUsername(), sysUser);
 	}
 
