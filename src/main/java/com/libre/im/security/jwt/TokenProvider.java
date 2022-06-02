@@ -2,7 +2,7 @@ package com.libre.im.security.jwt;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.google.common.base.Charsets;
-import com.libre.im.security.config.LibreSecurityProperties;
+import com.libre.im.config.LibreSecurityProperties;
 import com.libre.redis.cache.RedisUtils;
 
 import io.jsonwebtoken.*;

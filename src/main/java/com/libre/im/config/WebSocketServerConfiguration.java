@@ -1,4 +1,4 @@
-package com.libre.im.websocket.config;
+package com.libre.im.config;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

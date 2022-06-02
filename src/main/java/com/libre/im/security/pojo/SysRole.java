@@ -17,5 +17,6 @@ public class SysRole {
 
     private String roleName;
 
+    private String title;
 
 }

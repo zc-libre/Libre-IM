@@ -9,7 +9,7 @@ import com.libre.core.result.ResultCode;
 import com.libre.core.security.RsaUtil;
 import com.libre.core.toolkit.StringUtil;
 import com.libre.im.security.annotation.AnonymousAccess;
-import com.libre.im.security.config.LibreSecurityProperties;
+import com.libre.im.config.LibreSecurityProperties;
 import com.libre.im.security.jwt.TokenProvider;
 import com.libre.im.security.service.OnlineUserService;
 import com.libre.im.security.service.UserLockService;

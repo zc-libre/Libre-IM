@@ -5,7 +5,7 @@ import com.libre.boot.exception.ErrorType;
 import com.libre.boot.exception.ErrorUtil;
 import com.libre.boot.exception.LibreErrorEvent;
 import com.libre.core.toolkit.StringUtil;
-import com.libre.im.websocket.config.WebsocketServerProperties;
+import com.libre.im.config.WebsocketServerProperties;
 import com.libre.im.websocket.constant.LibreIMConstants;
 import com.libre.im.websocket.mapstruct.MessageMapping;
 import com.libre.im.websocket.message.ConnectType;

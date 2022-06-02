@@ -1,4 +1,4 @@
-package com.libre.im.security.config;
+package com.libre.im.config;
 
 import com.google.common.collect.Lists;
 import com.libre.core.security.RsaUtil;

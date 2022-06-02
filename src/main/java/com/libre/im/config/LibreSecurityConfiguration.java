@@ -1,6 +1,5 @@
-package com.libre.im.security.config;
+package com.libre.im.config;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.libre.im.security.annotation.AnonymousAccess;
 import com.libre.im.security.support.JwtAccessDeniedHandler;

@@ -1,4 +1,4 @@
-package com.libre.im.websocket.config;
+package com.libre.im.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

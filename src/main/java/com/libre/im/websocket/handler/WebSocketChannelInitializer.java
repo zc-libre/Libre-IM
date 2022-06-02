@@ -2,7 +2,7 @@ package com.libre.im.websocket.handler;
 
 import com.libre.im.websocket.codec.ProtobufMessageDecoder;
 import com.libre.im.websocket.codec.ProtobufMessageEncoder;
-import com.libre.im.websocket.config.WebsocketServerProperties;
+import com.libre.im.config.WebsocketServerProperties;
 import com.libre.im.websocket.proto.TextMessageProto;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

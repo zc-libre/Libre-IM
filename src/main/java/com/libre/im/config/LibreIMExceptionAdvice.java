@@ -1,4 +1,4 @@
-package com.libre.im.security.config;
+package com.libre.im.config;
 
 import com.libre.core.result.R;
 import com.libre.core.result.ResultCode;

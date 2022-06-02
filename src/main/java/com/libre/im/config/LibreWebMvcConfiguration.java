@@ -1,4 +1,4 @@
-package com.libre.im.security.config;
+package com.libre.im.config;
 
 import com.libre.im.security.support.AuthUserArgumentResolver;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.libre.im.security.jwt;
 
-import com.libre.im.security.config.LibreSecurityProperties;
+import com.libre.im.config.LibreSecurityProperties;
 import com.libre.im.security.service.OnlineUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
