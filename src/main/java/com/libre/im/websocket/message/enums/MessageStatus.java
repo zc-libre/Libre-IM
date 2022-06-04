@@ -1,4 +1,4 @@
-package com.libre.im.websocket.message;
+package com.libre.im.websocket.message.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,8 @@
 package com.libre.im.websocket.message;
 
 import com.libre.im.websocket.constant.LibreIMConstants;
+import com.libre.im.websocket.message.enums.ConnectType;
+import com.libre.im.websocket.message.enums.MessageBodyType;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;

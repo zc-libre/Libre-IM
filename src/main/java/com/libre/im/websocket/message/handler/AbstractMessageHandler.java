@@ -2,6 +2,7 @@ package com.libre.im.websocket.message.handler;
 
 import com.libre.im.websocket.mapstruct.MessageMapping;
 import com.libre.im.websocket.message.*;
+import com.libre.im.websocket.message.enums.ConnectType;
 import com.libre.im.websocket.session.Session;
 import com.libre.im.websocket.session.SessionManager;
 import com.libre.im.web.pojo.ChatMessage;

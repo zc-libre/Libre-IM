@@ -1,4 +1,4 @@
-package com.libre.im.websocket.message;
+package com.libre.im.websocket.message.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,8 @@ public enum ConnectType {
 
 	SEND(2),
 
-	RECEIVED(3),
-
-	READ(4),
-
-	OFFLINE(5);
+	RECEIVED(3)
+	;
 
 	private final Integer type;
 

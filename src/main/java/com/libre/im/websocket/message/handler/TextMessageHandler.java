@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.libre.im.websocket.exception.LibreImException;
 import com.libre.im.websocket.mapstruct.MessageMapping;
 import com.libre.im.websocket.message.*;
+import com.libre.im.websocket.message.enums.MessageBodyType;
+import com.libre.im.websocket.message.enums.MessageStatus;
 import com.libre.im.websocket.proto.TextMessageProto;
 import com.libre.im.websocket.session.Session;
 import com.libre.im.websocket.session.SessionManager;

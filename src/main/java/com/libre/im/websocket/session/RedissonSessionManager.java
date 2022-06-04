@@ -12,7 +12,7 @@ import org.redisson.api.*;
 public class RedissonSessionManager extends AbstractSessionManager {
 
     private final RedissonClient redissonClient;
-    public final static String SESSION_KEY = "libre:im:session";
+    public final static String SESSION_KEY = "libre:im:session:";
 
     @Override
     public Session getSession(Long sessionId) {

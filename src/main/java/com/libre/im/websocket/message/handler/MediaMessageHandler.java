@@ -3,7 +3,7 @@ package com.libre.im.websocket.message.handler;
 import com.libre.im.websocket.exception.LibreImException;
 import com.libre.im.websocket.message.MediaMessage;
 import com.libre.im.websocket.message.Message;
-import com.libre.im.websocket.message.MessageBodyType;
+import com.libre.im.websocket.message.enums.MessageBodyType;
 import com.libre.im.websocket.proto.TextMessageProto;
 import com.libre.im.websocket.session.SessionManager;
 import lombok.extern.slf4j.Slf4j;

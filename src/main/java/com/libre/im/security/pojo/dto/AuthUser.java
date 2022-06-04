@@ -12,10 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author Zheng Jie
- * @date 2018-11-23
- */
 @Getter
 @Setter
 public class AuthUser extends User {

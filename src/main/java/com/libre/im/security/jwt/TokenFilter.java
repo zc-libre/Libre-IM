@@ -19,9 +19,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-/**
- * @author /
- */
 @Slf4j
 public class TokenFilter extends GenericFilterBean {
 

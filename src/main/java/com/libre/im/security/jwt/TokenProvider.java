@@ -23,9 +23,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- * @author /
- */
 @Slf4j
 @Component
 public class TokenProvider implements InitializingBean {

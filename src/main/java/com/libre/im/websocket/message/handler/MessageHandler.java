@@ -2,7 +2,7 @@ package com.libre.im.websocket.message.handler;
 
 import com.google.protobuf.MessageLite;
 import com.libre.im.websocket.message.Message;
-import com.libre.im.websocket.message.MessageBodyType;
+import com.libre.im.websocket.message.enums.MessageBodyType;
 
 /**
  * @author ZC

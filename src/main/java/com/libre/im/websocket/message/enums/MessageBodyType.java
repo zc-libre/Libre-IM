@@ -1,5 +1,7 @@
-package com.libre.im.websocket.message;
+package com.libre.im.websocket.message.enums;
 
+import com.libre.im.websocket.message.MediaMessage;
+import com.libre.im.websocket.message.TextMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

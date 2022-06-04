@@ -26,11 +26,6 @@ public class OnlineUserDTO {
     private String nickName;
 
     /**
-     * 部門
-     */
-    private String dept;
-
-    /**
      * 浏览器
      */
     private String browser;
