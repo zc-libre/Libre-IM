@@ -30,7 +30,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, LibreUser> im
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(allEntries = true)
 	public boolean updateByUsername(String username, LibreUser sysUser) {
-		return this.update(Wrappers.lambdaUpdate(sysUser).eq(LibreUser::getUsername, username));
+		return this.update(sysUser, Wrappers.<LibreUser>lambdaUpdate().eq(LibreUser::getUsername, username));
 	}
 
 }

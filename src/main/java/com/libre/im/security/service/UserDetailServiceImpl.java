@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -55,12 +56,16 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 			loadRoleAuthorities(roleList, dbAuthSet);
 		}
 		String password = user.getPassword();
-		Boolean enabled = user.getEnabled();
-		Boolean accountNonLocked = user.getLocked();
+		Integer enabled = user.getEnabled();
+		Integer locked = user.getLocked();
+
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
-		AuthUser jwtUser = new AuthUser(username, SecurityConstants.PASSWORD_PREFIX + password, enabled,
+		boolean enable = ObjectUtils.nullSafeEquals(enabled, SecurityConstants.ENABLED_YES);
+		boolean accountNonLocked = ObjectUtils.nullSafeEquals(locked, SecurityConstants.LOCKED_YES);
+
+		AuthUser jwtUser = new AuthUser(username, password, enable,
 				accountNonLocked, authorities);
 		jwtUser.setUserId(user.getId());
 		jwtUser.setNickName(user.getNikeName());
@@ -89,7 +94,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 	public boolean updateLockUser(AuthUserDTO authUser) {
 		Assert.notNull(authUser.getUsername(), "username must not be null");
 		LibreUser sysUser = new LibreUser();
-		//sysUser.setLocked(Boolean.TRUE);
+		sysUser.setLocked(SecurityConstants.LOCKED_YES);
 		return userService.updateByUsername(authUser.getUsername(), sysUser);
 	}
 

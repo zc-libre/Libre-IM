@@ -7,9 +7,11 @@ import com.libre.core.exception.LibreException;
 import com.libre.core.result.R;
 import com.libre.core.result.ResultCode;
 import com.libre.core.security.RsaUtil;
+import com.libre.core.toolkit.Exceptions;
 import com.libre.core.toolkit.StringUtil;
 import com.libre.im.security.annotation.AnonymousAccess;
 import com.libre.im.config.LibreSecurityProperties;
+import com.libre.im.security.exception.UserLockedException;
 import com.libre.im.security.jwt.TokenProvider;
 import com.libre.im.security.service.OnlineUserService;
 import com.libre.im.security.service.UserLockService;
@@ -68,27 +70,22 @@ public class AuthorizationController {
 	@AnonymousAccess
 	@ApiOperation("密码加密公钥")
 	@GetMapping("/public-key")
-	public String getPublicKey() {
-		return RsaUtil.getPublicBase64(properties.getLoginKeyPair());
+	public R<String> getPublicKey() {
+		return R.data(RsaUtil.getPublicBase64(properties.getLoginKeyPair()));
 	}
 
 	@AnonymousAccess
 	@ApiOperation("登录")
 	@PostMapping("/token")
-	public R<Boolean> login(@Validated @RequestBody AuthUserDTO authUser, HttpServletRequest request)
+	public R<JwtUserVO> login(@Validated @RequestBody AuthUserDTO authUser, HttpServletRequest request)
 			throws BadRequestException {
 		boolean validate = captchaService.validate(authUser.getUuid(), authUser.getCode());
 		if (StringUtil.isBlank(authUser.getCode()) || !validate) {
 			throw new BadRequestException("验证码错误");
 		}
-		String password;
-		try {
-			String privateBase64 = RsaUtil.getPrivateBase64(properties.getLoginKeyPair());
-			password = RsaUtil.decryptFromBase64(privateBase64, authUser.getPassword());
-		}
-		catch (Exception e) {
-			throw new BadCredentialsException("密码错误");
-		}
+
+		String privateBase64 = RsaUtil.getPrivateBase64(properties.getLoginKeyPair());
+		String password = RsaUtil.decryptFromBase64(privateBase64, authUser.getPassword());
 
 		String retryLimitCacheName = properties.getLogin().getRetryLimitCacheName();
 		String username = authUser.getUsername();
@@ -102,7 +99,7 @@ public class AuthorizationController {
 		if (retryCount > retryLimit) {
 			log.warn("username: " + username + " tried to login more than " + retryLimit + " times in period");
 			userLockService.updateLockUser(authUser);
-			throw new LibreException("登录错误" + retryCount + "次，账号已锁定");
+			throw new UserLockedException(String.format("登录错误%d次，账号已锁定", retryCount));
 		}
 		else {
 			redisUtils.incr(retryLimitCacheName);
@@ -118,7 +115,11 @@ public class AuthorizationController {
 		// 保存在线信息
 		onlineUserService.save(jwtUserDto, token, request);
 		redisUtils.del(retryLimitCacheName);
-		return R.success(ResultCode.SUCCESS);
+		JwtUserVO jwtUserVO = new JwtUserVO();
+		jwtUserVO.setUserInfo(jwtUserDto.toJwtUser());
+		jwtUserVO.setToken(token);
+		jwtUserVO.setPublicKey(RsaUtil.getPublicBase64(properties.getUserKeyPair()));
+		return R.data(jwtUserVO);
 	}
 
 	@ApiOperation("获取用户信息")

@@ -41,11 +41,11 @@ public class LibreUser {
 
 	private Integer locked;
 
-	public Boolean getEnabled() {
-		return Boolean.FALSE;
+	public Integer getEnabled() {
+       return enabled;
 	}
 
-	public Boolean getLocked() {
-		return Boolean.TRUE;
+	public Integer getLocked() {
+		return locked;
 	}
 }
