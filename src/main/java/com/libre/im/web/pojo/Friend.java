@@ -17,7 +17,7 @@ public class Friend {
     @TableId
     private Long id;
 
-    private Long chatUserId;
+    private Long userId;
 
     private Long friendId;
 

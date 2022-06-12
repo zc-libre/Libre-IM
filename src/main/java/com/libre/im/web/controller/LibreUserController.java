@@ -1,16 +1,8 @@
 package com.libre.im.web.controller;
 
-import com.libre.core.result.R;
-import com.libre.im.web.pojo.LibreUser;
-import com.libre.im.web.service.FriendService;
-import com.libre.im.web.service.SysUserService;
-import com.libre.im.web.vo.ChatFriendVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author: Libre

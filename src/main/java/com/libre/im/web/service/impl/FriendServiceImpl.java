@@ -33,9 +33,9 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friend> impleme
 	private final SysUserService sysUserService;
 
 	@Override
-	@Cacheable(key = "#userId")
+	//@Cacheable(key = "#userId")
 	public List<ChatFriendVO> findListByUserId(Long userId) {
-		List<Friend> friends = this.list(Wrappers.<Friend>lambdaQuery().eq(Friend::getChatUserId, userId));
+		List<Friend> friends = this.list(Wrappers.<Friend>lambdaQuery().eq(Friend::getUserId, userId));
 		if (CollectionUtil.isEmpty(friends)) {
 			return Collections.emptyList();
 		}

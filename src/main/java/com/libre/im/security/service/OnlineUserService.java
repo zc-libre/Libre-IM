@@ -48,7 +48,7 @@ public class OnlineUserService {
      */
     public void save(AuthUser authUser, String token, HttpServletRequest request) {
 
-        String onlineKey = properties.getJwtToken().getStorePrefix();
+        String storePrefix = properties.getJwtToken().getStorePrefix();
         String ip = RequestUtils.getIp();
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader(HttpHeaders.USER_AGENT));
         String browser = userAgent.getBrowser().getName();
@@ -66,7 +66,7 @@ public class OnlineUserService {
         onlineUserDto.setLoginTime(LocalDateTime.now());
         onlineUserDto.setBrowser(browser);
         onlineUserDto.setIp(ip);
-        redisUtils.setEx(onlineKey + token, onlineUserDto, properties.getJwtToken().getExpireTime());
+        redisUtils.setEx(storePrefix + key, onlineUserDto, properties.getJwtToken().getExpireTime());
     }
 
 

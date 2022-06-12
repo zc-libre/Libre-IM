@@ -4,6 +4,7 @@ import com.libre.core.result.R;
 import com.libre.core.result.ResultCode;
 import com.libre.core.toolkit.Exceptions;
 import com.libre.im.security.exception.UserLockedException;
+import com.libre.im.websocket.exception.LibreImException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,7 +23,7 @@ public class LibreIMExceptionAdvice {
 	@ExceptionHandler(BadCredentialsException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public R<Object> handleError(BadCredentialsException e) {
-		log.error("密码错误: {}", Exceptions.getStackTraceAsString(e));
+		log.error("认证失败: {}", Exceptions.getStackTraceAsString(e));
 		String message = String.format("%s", e.getMessage());
 		return R.fail(ResultCode.UN_AUTHORIZED, message);
 	}
@@ -32,6 +33,13 @@ public class LibreIMExceptionAdvice {
 	public R<Object> handleError(UserLockedException e) {
 		String message = String.format("%s", e.getMessage());
 		return R.fail(ResultCode.UN_AUTHORIZED, message);
+	}
+
+	@ExceptionHandler(LibreImException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public R<Object> handleError(LibreImException e) {
+		String message = String.format("%s", e.getMessage());
+		return R.fail(ResultCode.INTERNAL_SERVER_ERROR, message);
 	}
 
 }

@@ -63,7 +63,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 				.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
 		boolean enable = ObjectUtils.nullSafeEquals(enabled, SecurityConstants.ENABLED_YES);
-		boolean accountNonLocked = ObjectUtils.nullSafeEquals(locked, SecurityConstants.LOCKED_YES);
+		boolean accountNonLocked = ObjectUtils.nullSafeEquals(locked, SecurityConstants.LOCKED_NO);
 
 		AuthUser jwtUser = new AuthUser(username, password, enable,
 				accountNonLocked, authorities);
