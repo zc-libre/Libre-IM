@@ -48,6 +48,10 @@ public class TokenFilter extends GenericFilterBean {
 		String token;
 		try {
 			token = resolveToken(httpServletRequest);
+			if (StringUtil.isBlank(token)) {
+				filterChain.doFilter(servletRequest, servletResponse);
+				return;
+			}
 		} catch (BadRequestException e) {
 			log.error("解析token失败",e);
 			HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -89,7 +93,7 @@ public class TokenFilter extends GenericFilterBean {
 			// 去掉令牌前缀
 			return bearerToken.replace(TOKEN_PREFIX, StringPool.EMPTY);
 		}
-		throw new BadRequestException("非法token");
+		return null;
 	}
 
 }
