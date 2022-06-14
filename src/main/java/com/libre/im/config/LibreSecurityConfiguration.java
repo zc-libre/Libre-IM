@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +23,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.method.HandlerMethod;
@@ -39,7 +41,7 @@ import java.util.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(LibreSecurityProperties.class)
 @Configuration(proxyBeanMethods = false)
-public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class LibreSecurityConfiguration  {
 
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
@@ -51,19 +53,19 @@ public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults("");
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
         // 搜寻匿名标记 url： @AnonymousAccess
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
         // 获取匿名标记
         Set<String> anonymousUrl = getAnonymousUrl(handlerMethodMap);
         List<String> permitAll = properties.getPermitAll();
-        http
+         http
                 .formLogin().disable()
                 // 禁用 CSRF
                 .csrf().disable()
@@ -110,6 +112,7 @@ public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and().apply(securityConfigurerAdapter());
+         return http.build();
     }
 
     private Set<String> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
@@ -132,9 +135,8 @@ public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
 

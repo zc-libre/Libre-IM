@@ -1,8 +1,8 @@
 package com.libre.im.web.controller;
 
 import com.libre.core.result.R;
-import com.libre.im.web.service.FriendService;
-import com.libre.im.web.pojo.vo.ChatFriendVO;
+import com.libre.im.web.pojo.Conversation;
+import com.libre.im.web.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,19 +13,18 @@ import java.util.List;
 
 /**
  * @author: Libre
- * @Date: 2022/5/3 2:55 AM
+ * @Date: 2022/6/13 11:09 PM
  */
 @RestController
-@RequestMapping("/friend")
+@RequestMapping("/conversation")
 @RequiredArgsConstructor
-public class FriendController {
+public class ConversationController {
 
-    private final FriendService friendService;
+    private final ConversationService conversationService;
 
     @GetMapping("/list/{userId}")
-    public R<List<ChatFriendVO>> list(@PathVariable Long userId) {
-        List<ChatFriendVO> chatFriends = friendService.findListByUserId(userId);
-        return R.data(chatFriends);
-    }
+    public R<List<Conversation>> listByUserId(@PathVariable Long userId) {
 
+        return null;
+    }
 }

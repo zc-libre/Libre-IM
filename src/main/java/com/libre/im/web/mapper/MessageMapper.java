@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Date: 2022/5/23 10:52 PM
  */
 @Mapper
-public interface ChatMessageMapper extends BaseMapper<ChatMessage> {
+public interface MessageMapper extends BaseMapper<ChatMessage> {
 }

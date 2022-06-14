@@ -6,6 +6,8 @@ package com.libre.im.web.constant;
  */
 public interface CacheKey {
 
-    String USER_CACHE_KEY = "libre:im:user";
-    String FRIEND_CACHE_KEY = "libre:im:friend";
+    String CACHE_KEY_PREFIX = "libre:im:";
+    String USER_CACHE_KEY =  CACHE_KEY_PREFIX + "user";
+    String FRIEND_CACHE_KEY = CACHE_KEY_PREFIX + "friend";
+
 }

@@ -2,7 +2,7 @@ package com.libre.im.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.im.web.pojo.Friend;
-import com.libre.im.web.vo.ChatFriendVO;
+import com.libre.im.web.pojo.vo.ChatFriendVO;
 
 import java.util.List;
 

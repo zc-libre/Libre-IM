@@ -2,7 +2,7 @@ package com.libre.im.websocket.message;
 
 import com.libre.im.websocket.constant.LibreIMConstants;
 import com.libre.im.web.pojo.ChatMessage;
-import com.libre.im.web.service.ChatMessageService;
+import com.libre.im.web.service.MessageService;
 import com.libre.redisson.topic.RTopicEvent;
 import com.libre.redisson.topic.RTopicListener;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MessageListener {
 
-    private final ChatMessageService messageService;
+    private final MessageService messageService;
 
     @Async
     @RTopicListener(LibreIMConstants.MESSAGE_TOPIC)

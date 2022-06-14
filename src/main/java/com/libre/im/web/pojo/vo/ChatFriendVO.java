@@ -1,4 +1,4 @@
-package com.libre.im.web.vo;
+package com.libre.im.web.pojo.vo;
 
 import lombok.Data;
 

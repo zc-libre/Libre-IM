@@ -12,11 +12,10 @@ import com.libre.im.web.pojo.LibreUser;
 import com.libre.im.web.service.FriendService;
 import com.libre.im.web.service.SysUserService;
 import com.libre.im.web.service.mapstruct.ChatFriendMapping;
-import com.libre.im.web.vo.ChatFriendVO;
+import com.libre.im.web.pojo.vo.ChatFriendVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
