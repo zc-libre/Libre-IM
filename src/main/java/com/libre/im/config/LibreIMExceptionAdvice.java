@@ -3,11 +3,11 @@ package com.libre.im.config;
 import com.libre.core.result.R;
 import com.libre.core.result.ResultCode;
 import com.libre.core.toolkit.Exceptions;
-import com.libre.im.security.exception.UserLockedException;
 import com.libre.im.websocket.exception.LibreImException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,9 +28,9 @@ public class LibreIMExceptionAdvice {
 		return R.fail(ResultCode.UN_AUTHORIZED, message);
 	}
 
-	@ExceptionHandler(UserLockedException.class)
+	@ExceptionHandler(LockedException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public R<Object> handleError(UserLockedException e) {
+	public R<Object> handleError(LockedException e) {
 		String message = String.format("%s", e.getMessage());
 		return R.fail(ResultCode.UN_AUTHORIZED, message);
 	}

@@ -3,28 +3,24 @@ package com.libre.im.security.controller;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.libre.captcha.service.CaptchaService;
 import com.libre.captcha.vo.CaptchaVO;
-import com.libre.core.exception.LibreException;
 import com.libre.core.result.R;
-import com.libre.core.result.ResultCode;
 import com.libre.core.security.RsaUtil;
-import com.libre.core.toolkit.Exceptions;
 import com.libre.core.toolkit.StringUtil;
-import com.libre.im.security.annotation.AnonymousAccess;
 import com.libre.im.config.LibreSecurityProperties;
-import com.libre.im.security.exception.UserLockedException;
+import com.libre.im.security.annotation.AnonymousAccess;
 import com.libre.im.security.jwt.TokenProvider;
-import com.libre.im.security.service.OnlineUserService;
-import com.libre.im.security.service.UserLockService;
 import com.libre.im.security.pojo.dto.AuthUser;
 import com.libre.im.security.pojo.dto.AuthUserDTO;
 import com.libre.im.security.pojo.vo.JwtUserVO;
+import com.libre.im.security.service.OnlineUserService;
+import com.libre.im.security.service.UserLockService;
 import com.libre.redis.cache.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.undertow.util.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -99,7 +95,7 @@ public class AuthorizationController {
 		if (retryCount > retryLimit) {
 			log.warn("username: " + username + " tried to login more than " + retryLimit + " times in period");
 			userLockService.updateLockUser(authUser);
-			throw new UserLockedException(String.format("登录错误%d次，账号已锁定", retryCount));
+			throw new LockedException(String.format("登录错误%d次，账号已锁定", retryCount));
 		}
 		else {
 			redisUtils.incr(retryLimitCacheName);
