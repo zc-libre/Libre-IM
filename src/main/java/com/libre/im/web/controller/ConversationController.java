@@ -24,7 +24,7 @@ public class ConversationController {
 
     @GetMapping("/list/{userId}")
     public R<List<Conversation>> listByUserId(@PathVariable Long userId) {
-
-        return null;
+        List<Conversation> conversations = conversationService.listByUserId(userId);
+        return R.data(conversations);
     }
 }
