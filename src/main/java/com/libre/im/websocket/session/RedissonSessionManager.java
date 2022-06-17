@@ -23,7 +23,7 @@ public class RedissonSessionManager extends AbstractSessionManager {
     @Override
     public void put(Long sessionId, Session session) {
         RBucket<Session> bucket = getSessionBucket(sessionId);
-        bucket.trySetAsync(session);
+        bucket.set(session);
     }
 
     @Override
