@@ -2,7 +2,7 @@ package com.libre.im.web.controller;
 
 import com.libre.core.result.R;
 import com.libre.im.web.service.FriendService;
-import com.libre.im.web.pojo.vo.ChatFriendVO;
+import com.libre.im.web.pojo.vo.FriendVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +23,8 @@ public class FriendController {
     private final FriendService friendService;
 
     @GetMapping("/list/{userId}")
-    public R<List<ChatFriendVO>> list(@PathVariable Long userId) {
-        List<ChatFriendVO> chatFriends = friendService.findListByUserId(userId);
+    public R<List<FriendVO>> list(@PathVariable Long userId) {
+        List<FriendVO> chatFriends = friendService.findListByUserId(userId);
         return R.data(chatFriends);
     }
 

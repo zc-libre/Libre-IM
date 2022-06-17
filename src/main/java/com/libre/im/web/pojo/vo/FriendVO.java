@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @Date: 2022/5/3 7:52 AM
  */
 @Data
-public class ChatFriendVO {
+public class FriendVO {
 
     private Long friendId;
 
