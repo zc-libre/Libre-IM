@@ -17,24 +17,24 @@ import static io.netty.buffer.Unpooled.wrappedBuffer;
  * @author: Libre
  * @Date: 2022/5/1 12:45 AM
  */
-
-
 public class JacksonMessageEncoder extends MessageToMessageEncoder<Message> {
 
-    private final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
-    public JacksonMessageEncoder(ObjectMapper objectMapper) {
-        Optional.ofNullable(objectMapper).orElseGet(ObjectMapper::new);
-        this.objectMapper = objectMapper;
-    }
+	public JacksonMessageEncoder(ObjectMapper objectMapper) {
+		Optional.ofNullable(objectMapper).orElseGet(ObjectMapper::new);
+		this.objectMapper = objectMapper;
+	}
 
-    @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, Message message, List<Object> list) throws Exception {
-        if (Objects.isNull(message)) {
-            return;
-        }
-        ByteBuf buf = wrappedBuffer(objectMapper.writeValueAsBytes(message));
-        TextWebSocketFrame textWebSocketFrame = new TextWebSocketFrame(buf);
-        list.add(textWebSocketFrame);
-    }
+	@Override
+	protected void encode(ChannelHandlerContext channelHandlerContext, Message message, List<Object> list)
+			throws Exception {
+		if (Objects.isNull(message)) {
+			return;
+		}
+		ByteBuf buf = wrappedBuffer(objectMapper.writeValueAsBytes(message));
+		TextWebSocketFrame textWebSocketFrame = new TextWebSocketFrame(buf);
+		list.add(textWebSocketFrame);
+	}
+
 }

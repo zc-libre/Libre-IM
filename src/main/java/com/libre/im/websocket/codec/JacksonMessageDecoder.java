@@ -17,8 +17,6 @@ import java.util.Optional;
  * @author: Libre
  * @Date: 2022/4/30 3:21 AM
  */
-
-
 public class JacksonMessageDecoder extends MessageToMessageDecoder<WebSocketFrame> {
 
     private final ObjectMapper objectMapper;
