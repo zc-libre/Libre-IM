@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.im.web.pojo.Friend;
 import com.libre.im.web.pojo.vo.FriendVO;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,4 +16,6 @@ public interface FriendService extends IService<Friend> {
     List<FriendVO> findListByUserId(Long userId);
 
     void removeFriend(Long friend);
+
+
 }

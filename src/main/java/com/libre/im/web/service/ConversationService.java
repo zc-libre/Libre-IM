@@ -2,6 +2,7 @@ package com.libre.im.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.im.web.pojo.Conversation;
+import com.libre.im.web.pojo.vo.ConversationVO;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ import java.util.List;
  */
 public interface ConversationService extends IService<Conversation> {
 
-    List<Conversation> listByUserId(Long userId);
+    List<ConversationVO> listByUserId(Long userId);
 }

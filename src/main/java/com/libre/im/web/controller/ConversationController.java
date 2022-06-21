@@ -2,6 +2,7 @@ package com.libre.im.web.controller;
 
 import com.libre.core.result.R;
 import com.libre.im.web.pojo.Conversation;
+import com.libre.im.web.pojo.vo.ConversationVO;
 import com.libre.im.web.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,8 @@ public class ConversationController {
     private final ConversationService conversationService;
 
     @GetMapping("/list/{userId}")
-    public R<List<Conversation>> listByUserId(@PathVariable Long userId) {
-        List<Conversation> conversations = conversationService.listByUserId(userId);
+    public R<List<ConversationVO>> listByUserId(@PathVariable Long userId) {
+        List<ConversationVO> conversations = conversationService.listByUserId(userId);
         return R.data(conversations);
     }
 }

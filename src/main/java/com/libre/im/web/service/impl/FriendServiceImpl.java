@@ -32,7 +32,7 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friend> impleme
 	private final SysUserService sysUserService;
 
 	@Override
-	//@Cacheable(key = "#userId")
+	// @Cacheable(key = "#userId")
 	public List<FriendVO> findListByUserId(Long userId) {
 		List<Friend> friends = this.list(Wrappers.<Friend>lambdaQuery().eq(Friend::getUserId, userId));
 		if (CollectionUtil.isEmpty(friends)) {
@@ -43,11 +43,11 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friend> impleme
 		List<LibreUser> libreUsers = sysUserService.listByIds(friendMap.keySet());
 		List<FriendVO> voList = Lists.newArrayList();
 		for (LibreUser libreUser : libreUsers) {
-			Friend chatFriend = friendMap.get(libreUser.getId());
-			Optional.ofNullable(chatFriend).ifPresent(friend -> {
+			Friend friend = friendMap.get(libreUser.getId());
+			Optional.ofNullable(friend).ifPresent(f -> {
 				FriendVO friendVO = mapping.chatUserToFriendVO(libreUser);
-				friendVO.setIsTop(chatFriend.getIsTop());
-				friendVO.setAddTime(chatFriend.getAddTime());
+				friendVO.setIsTop(f.getIsTop());
+				friendVO.setAddTime(f.getAddTime());
 				voList.add(friendVO);
 			});
 		}
@@ -59,5 +59,7 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friend> impleme
 	public void removeFriend(Long friend) {
 
 	}
+
+
 
 }
