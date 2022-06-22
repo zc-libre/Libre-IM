@@ -58,4 +58,9 @@ public class SecurityUtil {
         HttpServletRequest request = RequestUtils.getRequest();
         new SecurityContextLogoutHandler().logout(request, null, null);
     }
+
+    public static Long getUserId() {
+        AuthUser authUser = getUser();
+        return authUser == null ? null : authUser.getUserId();
+    }
 }
