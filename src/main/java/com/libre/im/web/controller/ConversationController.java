@@ -1,14 +1,11 @@
 package com.libre.im.web.controller;
 
 import com.libre.core.result.R;
-import com.libre.im.web.pojo.Conversation;
+import com.libre.im.security.utils.SecurityUtil;
 import com.libre.im.web.pojo.vo.ConversationVO;
 import com.libre.im.web.service.ConversationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,11 +18,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConversationController {
 
-    private final ConversationService conversationService;
+	private final ConversationService conversationService;
 
-    @GetMapping("/list/{userId}")
-    public R<List<ConversationVO>> listByUserId(@PathVariable Long userId) {
-        List<ConversationVO> conversations = conversationService.listByUserId(userId);
-        return R.data(conversations);
-    }
+	@GetMapping("/list")
+	public R<List<ConversationVO>> listByUserId() {
+		Long userId = SecurityUtil.getUserId();
+		List<ConversationVO> conversations = conversationService.listByUserId(userId);
+		return R.data(conversations);
+	}
+
+
+	@PutMapping
+	public R<Boolean> add(@RequestParam Long friend) {
+		conversationService.add(friend);
+		return R.status(Boolean.TRUE);
+	}
+
+	@DeleteMapping
+	public R<Boolean> remove(@RequestParam Long friendId) {
+		Long userId = SecurityUtil.getUserId();
+		conversationService.removeByUserIdAndFriendId(userId, friendId);
+		return R.status(Boolean.TRUE);
+	}
 }

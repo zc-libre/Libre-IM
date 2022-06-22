@@ -13,4 +13,9 @@ import java.util.List;
 public interface ConversationService extends IService<Conversation> {
 
     List<ConversationVO> listByUserId(Long userId);
+
+    void removeByUserIdAndFriendId(Long userId, Long friendId);
+
+    void add(Long friend);
+
 }

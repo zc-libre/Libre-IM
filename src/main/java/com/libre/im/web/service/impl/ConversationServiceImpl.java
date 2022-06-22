@@ -6,6 +6,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.libre.core.toolkit.StreamUtils;
+import com.libre.core.toolkit.StringUtil;
+import com.libre.im.security.utils.SecurityUtil;
 import com.libre.im.web.mapper.ConversationMapper;
 import com.libre.im.web.pojo.ChatMessage;
 import com.libre.im.web.pojo.Conversation;
@@ -16,11 +18,14 @@ import com.libre.im.web.service.ConversationService;
 import com.libre.im.web.service.FriendService;
 import com.libre.im.web.service.MessageService;
 import com.libre.im.web.service.SysUserService;
+import com.libre.im.websocket.exception.LibreImException;
 import lombok.RequiredArgsConstructor;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -77,6 +82,21 @@ public class ConversationServiceImpl extends ServiceImpl<ConversationMapper, Con
 			vos.add(conversation);
 		}
 		return vos;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void removeByUserIdAndFriendId(Long userId, Long friendId) {
+		this.remove(Wrappers.<Conversation>lambdaQuery().eq(Conversation::getFriendId, friendId)
+				.eq(Conversation::getUserId, userId));
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void add(Long friend) {
+		Long userId = SecurityUtil.getUserId();
+		Conversation conversation = Conversation.of(userId, friend, LocalDateTime.now());
+		this.save(conversation);
 	}
 
 }

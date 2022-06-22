@@ -15,7 +15,7 @@ public interface FriendService extends IService<Friend> {
 
     List<FriendVO> findListByUserId(Long userId);
 
-    void removeFriend(Long friend);
+    void removeFriend(Long friendId);
 
 
 }
