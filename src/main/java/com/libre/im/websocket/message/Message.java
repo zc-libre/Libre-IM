@@ -15,23 +15,24 @@ import java.time.LocalDateTime;
 @Data
 public abstract class Message implements Serializable {
 
-    protected Long id;
+	protected Long id;
 
-    protected Integer connectType;
+	protected Integer connectType;
 
-    protected Integer messageBodyType;
+	protected Integer messageBodyType;
 
-    protected Long sendUserId;
+	protected Long sendUserId;
 
-    protected Integer status;
+	protected Integer status;
 
-    protected Object body;
+	protected Object body;
 
-    protected Long acceptUserId;
+	protected Long acceptUserId;
 
-    protected Long acceptGroupId;
+	protected Long acceptGroupId;
 
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    protected LocalDateTime createTime;
+	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+	protected LocalDateTime createTime;
+
 }
