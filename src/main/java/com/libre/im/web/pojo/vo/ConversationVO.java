@@ -23,10 +23,8 @@ public class ConversationVO implements Serializable {
 
     private UserVO user;
 
-    private List<ChatMessage> messageList;
+    private ChatMessage lastMessage;
 
+    private Integer unreadMessageNum;
 
-    public static ConversationVO of(Long userId, UserVO user, List<ChatMessage> messageList) {
-        return new ConversationVO(userId, user, messageList);
-    }
 }

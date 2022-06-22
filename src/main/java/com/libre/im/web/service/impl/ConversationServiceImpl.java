@@ -62,9 +62,19 @@ public class ConversationServiceImpl extends ServiceImpl<ConversationMapper, Con
 			if (!messageMap.containsKey(id)) {
 				continue;
 			}
-			List<ChatMessage> chatMessages = messageMap.get(id);
 			UserVO userVO = userMap.get(id);
-			vos.add(ConversationVO.of(userId, userVO, chatMessages));
+			if (Objects.isNull(userVO)) {
+				continue;
+			}
+			List<ChatMessage> chatMessages = messageMap.get(id);
+			if (CollectionUtils.isEmpty(chatMessages)) {
+				continue;
+			}
+			ConversationVO conversation = new ConversationVO();
+			conversation.setUserId(userId);
+			conversation.setUnreadMessageNum(chatMessages.size());
+			conversation.setLastMessage(chatMessages.get(0));
+			vos.add(conversation);
 		}
 		return vos;
 	}
