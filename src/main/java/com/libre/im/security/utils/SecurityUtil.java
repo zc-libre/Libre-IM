@@ -1,6 +1,6 @@
 package com.libre.im.security.utils;
 
-import com.libre.core.toolkit.RequestUtils;
+import com.libre.boot.toolkit.RequestUtils;
 import com.libre.im.security.pojo.dto.AuthUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

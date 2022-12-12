@@ -1,7 +1,7 @@
 package com.libre.im.security.support;
 
-import com.libre.core.result.R;
-import com.libre.core.toolkit.RequestUtils;
+import com.libre.boot.toolkit.RequestUtils;
+import com.libre.toolkit.result.R;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

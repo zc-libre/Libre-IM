@@ -1,6 +1,6 @@
 package com.libre.im.security.pojo.vo;
 
-import com.libre.core.json.JsonUtil;
+import com.libre.toolkit.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 

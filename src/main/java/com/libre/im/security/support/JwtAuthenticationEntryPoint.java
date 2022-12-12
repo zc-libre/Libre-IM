@@ -1,7 +1,7 @@
 package com.libre.im.security.support;
 
-import com.libre.core.result.R;
-import com.libre.core.toolkit.RequestUtils;
+import com.libre.boot.toolkit.RequestUtils;
+import com.libre.toolkit.result.R;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

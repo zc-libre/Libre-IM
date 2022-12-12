@@ -7,7 +7,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.protobuf.Extension;
-import com.libre.core.toolkit.StreamUtils;
+import com.libre.toolkit.core.StreamUtils;
 import com.libre.im.web.constant.MessageConstant;
 import com.libre.im.web.mapper.MessageMapper;
 import com.libre.im.web.pojo.ChatMessage;

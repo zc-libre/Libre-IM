@@ -1,8 +1,8 @@
 package com.libre.im.config;
 
-import com.libre.core.result.R;
-import com.libre.core.result.ResultCode;
-import com.libre.core.toolkit.Exceptions;
+import com.libre.toolkit.result.R;
+import com.libre.toolkit.result.ResultCode;
+import com.libre.toolkit.core.Exceptions;
 import com.libre.im.websocket.exception.LibreImException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -3,6 +3,7 @@ package com.libre.im.websocket.message.handler;
 import com.libre.im.websocket.mapstruct.MessageMapping;
 import com.libre.im.websocket.message.*;
 import com.libre.im.websocket.message.enums.ConnectType;
+import com.libre.im.websocket.message.enums.MessageStatus;
 import com.libre.im.websocket.session.Session;
 import com.libre.im.websocket.session.SessionManager;
 import com.libre.im.web.pojo.ChatMessage;
@@ -14,7 +15,7 @@ import java.util.Objects;
  * @author: Libre
  * @Date: 2022/4/30 10:54 PM
  */
-public abstract class AbstractMessageHandler<T extends Message> implements MessageHandler<T>{
+public abstract class AbstractMessageHandler<T extends Message> implements MessageHandler<T> {
 
 	protected final SessionManager sessionManager;
 
@@ -23,7 +24,6 @@ public abstract class AbstractMessageHandler<T extends Message> implements Messa
 	protected AbstractMessageHandler(SessionManager sessionManager) {
 		this.sessionManager = sessionManager;
 	}
-
 
 	@Override
 	public void resolveMessage(Message message) {
@@ -43,7 +43,6 @@ public abstract class AbstractMessageHandler<T extends Message> implements Messa
 			}
 		}
 	}
-
 
 	public void sendHeartBeatMessage(Long sessionId) {
 		TextMessage heartBeatMessage = MessageFactory.buildHeartBeatMessage();

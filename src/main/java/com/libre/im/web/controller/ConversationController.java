@@ -1,6 +1,6 @@
 package com.libre.im.web.controller;
 
-import com.libre.core.result.R;
+import com.libre.toolkit.result.R;
 import com.libre.im.security.utils.SecurityUtil;
 import com.libre.im.web.pojo.vo.ConversationVO;
 import com.libre.im.web.service.ConversationService;

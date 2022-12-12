@@ -1,7 +1,7 @@
 package com.libre.im.websocket.message;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.libre.core.time.DatePattern;
+import com.libre.toolkit.time.DatePattern;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

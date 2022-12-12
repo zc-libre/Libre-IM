@@ -1,10 +1,10 @@
 package com.libre.im.security.pojo.dto;
 
-import com.libre.core.toolkit.CollectionUtil;
 import com.libre.im.security.jwt.JwtUser;
 import com.libre.im.security.pojo.RoleInfo;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -51,7 +51,7 @@ public class AuthUser extends User {
         jwtUser.setEmail(this.getEmail());
         jwtUser.setPhone(this.getPhone());
         jwtUser.setRoles(this.getRoleList());
-        if (CollectionUtil.isNotEmpty(this.getRoleList())) {
+        if (CollectionUtils.isNotEmpty(this.getRoleList())) {
             jwtUser.setRoleList(this.getRoleList().stream().map(RoleInfo::getTitle).collect(Collectors.toList()));
         }
         return jwtUser;

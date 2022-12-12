@@ -1,7 +1,6 @@
 package com.libre.im.config;
 
 import com.google.common.collect.Lists;
-import com.libre.core.security.RsaUtil;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.Getter;
@@ -39,16 +38,6 @@ public class LibreSecurityProperties {
      */
     @NestedConfigurationProperty
     private final JwtToken jwtToken = new JwtToken();
-    /**
-     * 登录密码加解密 rsa 秘钥
-     */
-    @NestedConfigurationProperty
-    private KeyPair loginKeyPair = RsaUtil.genKeyPair();
-    /**
-     * 用户密码加解密 rsa 秘钥
-     */
-    @NestedConfigurationProperty
-    private KeyPair userKeyPair = RsaUtil.genKeyPair();
 
     /**
      * 登录配置

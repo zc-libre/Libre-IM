@@ -1,7 +1,7 @@
 package com.libre.im.websocket.mapstruct;
 
-import com.libre.core.mapstruct.BaseConvert;
-import com.libre.core.time.DatePattern;
+import com.libre.toolkit.mapstruct.BaseMapping;
+import com.libre.toolkit.time.DatePattern;
 import com.libre.im.websocket.message.TextMessage;
 import com.libre.im.websocket.proto.TextMessageProto;
 import com.libre.im.web.pojo.ChatMessage;
@@ -14,7 +14,7 @@ import org.mapstruct.factory.Mappers;
  * @Date: 2022/5/1 10:08 PM
  */
 @Mapper
-public interface MessageMapping extends BaseConvert<TextMessageProto.TextMessage, TextMessage> {
+public interface MessageMapping extends BaseMapping<TextMessageProto.TextMessage, TextMessage> {
 
     MessageMapping INSTANCE = Mappers.getMapper(MessageMapping.class);
 

@@ -3,9 +3,8 @@ package com.libre.im.security.controller;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.libre.captcha.service.CaptchaService;
 import com.libre.captcha.vo.CaptchaVO;
-import com.libre.core.result.R;
-import com.libre.core.security.RsaUtil;
-import com.libre.core.toolkit.StringUtil;
+import com.libre.toolkit.result.R;
+import com.libre.toolkit.core.StringUtil;
 import com.libre.im.config.LibreSecurityProperties;
 import com.libre.im.security.annotation.AnonymousAccess;
 import com.libre.im.security.jwt.TokenProvider;
@@ -29,6 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
 
 /**
  * @author Libre
@@ -63,12 +63,6 @@ public class AuthorizationController {
 		return R.data(captchaVO);
 	}
 
-	@AnonymousAccess
-	@ApiOperation("密码加密公钥")
-	@GetMapping("/public-key")
-	public R<String> getPublicKey() {
-		return R.data(RsaUtil.getPublicBase64(properties.getLoginKeyPair()));
-	}
 
 	@AnonymousAccess
 	@ApiOperation("登录")
@@ -79,9 +73,6 @@ public class AuthorizationController {
 		if (StringUtil.isBlank(authUser.getCode()) || !validate) {
 			throw new BadRequestException("验证码错误");
 		}
-
-		String privateBase64 = RsaUtil.getPrivateBase64(properties.getLoginKeyPair());
-		String password = RsaUtil.decryptFromBase64(privateBase64, authUser.getPassword());
 
 		String retryLimitCacheName = properties.getLogin().getRetryLimitCacheName();
 		String username = authUser.getUsername();
@@ -94,7 +85,6 @@ public class AuthorizationController {
 		int retryLimit = properties.getLogin().getRetryLimit();
 		if (retryCount > retryLimit) {
 			log.warn("username: " + username + " tried to login more than " + retryLimit + " times in period");
-			userLockService.updateLockUser(authUser);
 			throw new LockedException(String.format("登录错误%d次，账号已锁定", retryCount));
 		}
 		else {
@@ -102,7 +92,7 @@ public class AuthorizationController {
 		}
 
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-				authUser.getUsername(), password);
+				authUser.getUsername(), authUser.getPassword());
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -114,7 +104,6 @@ public class AuthorizationController {
 		JwtUserVO jwtUserVO = new JwtUserVO();
 		jwtUserVO.setUserInfo(jwtUserDto.toJwtUser());
 		jwtUserVO.setToken(token);
-		jwtUserVO.setPublicKey(RsaUtil.getPublicBase64(properties.getUserKeyPair()));
 		return R.data(jwtUserVO);
 	}
 
@@ -123,7 +112,6 @@ public class AuthorizationController {
 	public R<JwtUserVO> getUserInfo(AuthUser authUser) {
 		JwtUserVO userVO = new JwtUserVO();
 		userVO.setUserInfo(authUser.toJwtUser());
-		userVO.setPublicKey(RsaUtil.getPublicBase64(properties.getUserKeyPair()));
 		return R.data(userVO);
 	}
 

@@ -1,7 +1,7 @@
 package com.libre.im.websocket.message;
 
 import com.libre.boot.autoconfigure.SpringContext;
-import com.libre.core.exception.LibreException;
+import com.libre.toolkit.exception.LibreException;
 import com.libre.im.websocket.constant.LibreIMConstants;
 import com.libre.im.web.pojo.ChatMessage;
 import com.libre.redisson.topic.RedissonTopicEventPublisher;

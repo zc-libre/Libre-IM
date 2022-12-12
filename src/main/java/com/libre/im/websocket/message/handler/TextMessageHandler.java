@@ -1,6 +1,7 @@
 package com.libre.im.websocket.message.handler;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.libre.im.web.constant.MessageConstant;
 import com.libre.im.websocket.exception.LibreImException;
 import com.libre.im.websocket.mapstruct.MessageMapping;
 import com.libre.im.websocket.message.*;
@@ -45,7 +46,7 @@ public class TextMessageHandler extends AbstractMessageHandler<TextMessage> {
 
 		Session session = sessionManager.getSession(id);
 		if (Objects.isNull(session)) {
-			chatMessage.setStatus(MessageStatus.OFFLINE.getStatus());
+			chatMessage.setStatus(MessageConstant.UNREAD);
 			MessagePublisher.publishSaveMessageEvent(chatMessage);
 			return;
 		}

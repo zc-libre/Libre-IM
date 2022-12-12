@@ -2,8 +2,7 @@ package com.libre.im.security.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.libre.core.toolkit.CollectionUtil;
-import com.libre.core.toolkit.StringUtil;
+import com.libre.toolkit.core.StringUtil;
 import com.libre.im.security.constant.SecurityConstants;
 import com.libre.im.security.pojo.RoleInfo;
 import com.libre.im.security.pojo.SysRole;
@@ -13,6 +12,7 @@ import com.libre.im.web.pojo.LibreUser;
 import com.libre.im.web.service.SysUserService;
 import com.libre.im.web.service.SysRoleService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,7 +51,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		List<SysRole> roleList = sysRoleService.getListByUserId(userId);
 		Set<String> dbAuthSet = Sets.newHashSet();
 		List<RoleInfo> roleInfoList = Lists.newArrayList();
-		if (CollectionUtil.isNotEmpty(roleList)) {
+		if (CollectionUtils.isNotEmpty(roleList)) {
 			// 获取角色
 			loadRoleAuthorities(roleList, dbAuthSet);
 		}
@@ -73,7 +73,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		jwtUser.setPhone(user.getPhone());
 		jwtUser.setAvatar(user.getAvatar());
 
-		if (CollectionUtil.isNotEmpty(roleInfoList)) {
+		if (CollectionUtils.isNotEmpty(roleInfoList)) {
 			jwtUser.setRoleList(roleInfoList);
 		}
 

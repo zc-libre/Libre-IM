@@ -2,20 +2,20 @@ package com.libre.im.security.service;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.libre.core.security.DigestUtil;
-import com.libre.core.toolkit.CharPool;
-import com.libre.core.toolkit.CollectionUtil;
-import com.libre.core.toolkit.DesensitizationUtil;
-import com.libre.core.toolkit.RequestUtils;
+import com.libre.boot.toolkit.RequestUtils;
 import com.libre.im.config.LibreSecurityProperties;
 import com.libre.im.security.pojo.dto.AuthUser;
 import com.libre.im.security.pojo.dto.OnlineUserDTO;
 import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.ip2region.core.IpInfo;
 import com.libre.redis.cache.RedisUtils;
+import com.libre.toolkit.core.CharPool;
+import com.libre.toolkit.core.DesensitizationUtil;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class OnlineUserService {
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader(HttpHeaders.USER_AGENT));
         String browser = userAgent.getBrowser().getName();
         IpInfo ipInfo = regionSearcher.memorySearch(ip);
-        String key = DigestUtil.md5Hex(token);
+        String key = DigestUtils.md5Hex(token);
         OnlineUserDTO onlineUserDto = new OnlineUserDTO();
         if (ipInfo != null) {
             onlineUserDto.setAddress(ipInfo.getAddress());
@@ -125,7 +125,7 @@ public class OnlineUserService {
      */
     public void checkLoginOnUser(String userName, String ignoreToken) {
         List<OnlineUserDTO> onlineUsers = getAll(userName);
-        if (CollectionUtil.isEmpty(onlineUsers)) {
+        if (CollectionUtils.isEmpty(onlineUsers)) {
             return;
         }
         for (OnlineUserDTO onlineUserDto : onlineUsers) {
@@ -134,7 +134,7 @@ public class OnlineUserService {
             }
             String key = onlineUserDto.getKey();
             if (StringUtils.isNotBlank(ignoreToken) ) {
-                String ignoreKey = DigestUtil.md5Hex(ignoreToken);
+                String ignoreKey = DigestUtils.md5Hex(ignoreToken);
                 if (!ignoreKey.equals(key)) {
                     this.kickOut(key);
                 }
@@ -160,7 +160,7 @@ public class OnlineUserService {
 
     private String getCacheKeyByToken(String token) {
         String storePrefix = properties.getJwtToken().getStorePrefix();
-        String key = DigestUtil.md5Hex(token);
+        String key = DigestUtils.md5Hex(token);
         return storePrefix + key;
     }
 }
