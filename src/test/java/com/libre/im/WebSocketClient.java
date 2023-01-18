@@ -15,9 +15,9 @@
  */
 package com.libre.im;
 
-import com.libre.im.websocket.codec.ProtobufMessageDecoder;
-import com.libre.im.websocket.codec.ProtobufMessageEncoder;
-import com.libre.im.websocket.proto.TextMessageProto;
+import com.libre.im.websocket.core.codec.ProtobufMessageDecoder;
+import com.libre.im.websocket.core.codec.ProtobufMessageEncoder;
+import com.libre.im.websocket.core.proto.TextMessageProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;

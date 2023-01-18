@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * 在线用户
+ *
  * @author Zheng Jie
  */
 @Data
@@ -15,41 +16,49 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OnlineUserDTO {
 
-    /**
-     * 用户名
-     */
-    private String userName;
+	/**
+	 * 用户名
+	 */
+	private String userName;
 
-    /**
-     * 昵称
-     */
-    private String nickName;
+	/**
+	 * 昵称
+	 */
+	private String nickName;
 
-    /**
-     * 浏览器
-     */
-    private String browser;
+	/**
+	 * 部門
+	 */
+	private String dept;
 
-    /**
-     * IP
-     */
-    private String ip;
-    /**
-     * 地址
-     */
-    private String address;
-    /**
-     * token
-     */
-    private String key;
-    /**
-     * 32 位 token 摘要
-     */
-    private String summary;
-    /**
-     * 登录时间
-     */
-    private LocalDateTime loginTime;
+	/**
+	 * 浏览器
+	 */
+	private String browser;
 
+	/**
+	 * IP
+	 */
+	private String ip;
+
+	/**
+	 * 地址
+	 */
+	private String address;
+
+	/**
+	 * token
+	 */
+	private String key;
+
+	/**
+	 * 32 位 token 摘要
+	 */
+	private String summary;
+
+	/**
+	 * 登录时间
+	 */
+	private LocalDateTime loginTime;
 
 }

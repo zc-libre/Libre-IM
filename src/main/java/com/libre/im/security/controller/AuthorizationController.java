@@ -1,34 +1,26 @@
 package com.libre.im.security.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.libre.captcha.service.CaptchaService;
-import com.libre.captcha.vo.CaptchaVO;
+import com.libre.im.common.security.constant.SecurityConstant;
+import com.libre.im.common.security.dto.AuthUser;
+import com.libre.im.common.security.dto.JwtUser;
+import com.libre.im.common.security.dto.RoleInfo;
+import com.libre.im.system.pojo.SysMenu;
+import com.libre.im.system.pojo.vo.MenuVO;
+import com.libre.im.system.service.SysMenuService;
+import com.libre.im.system.toolkit.MenuUtil;
 import com.libre.toolkit.result.R;
-import com.libre.toolkit.core.StringUtil;
-import com.libre.im.config.LibreSecurityProperties;
-import com.libre.im.security.annotation.AnonymousAccess;
-import com.libre.im.security.jwt.TokenProvider;
-import com.libre.im.security.pojo.dto.AuthUser;
-import com.libre.im.security.pojo.dto.AuthUserDTO;
-import com.libre.im.security.pojo.vo.JwtUserVO;
-import com.libre.im.security.service.OnlineUserService;
-import com.libre.im.security.service.UserLockService;
-import com.libre.redis.cache.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.undertow.util.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Libre
@@ -37,90 +29,33 @@ import java.time.Duration;
 @Slf4j
 @Api(tags = "授权管理")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthorizationController {
 
-	private final LibreSecurityProperties properties;
-
-	private final CaptchaService captchaService;
-
-	private final RedisUtils redisUtils;
-
-	private final OnlineUserService onlineUserService;
-
-	private final TokenProvider tokenProvider;
-
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-	private final UserLockService userLockService;
-
-	@AnonymousAccess
-	@ApiOperation("获取验证码")
-	@GetMapping("/captcha")
-	public R<CaptchaVO> captcha() {
-		CaptchaVO captchaVO = captchaService.generateBase64Vo(IdWorker.get32UUID());
-		return R.data(captchaVO);
-	}
-
-
-	@AnonymousAccess
-	@ApiOperation("登录")
-	@PostMapping("/token")
-	public R<JwtUserVO> login(@Validated @RequestBody AuthUserDTO authUser, HttpServletRequest request)
-			throws BadRequestException {
-		boolean validate = captchaService.validate(authUser.getUuid(), authUser.getCode());
-		if (StringUtil.isBlank(authUser.getCode()) || !validate) {
-			throw new BadRequestException("验证码错误");
-		}
-
-		String retryLimitCacheName = properties.getLogin().getRetryLimitCacheName();
-		String username = authUser.getUsername();
-		retryLimitCacheName = retryLimitCacheName + username;
-		Integer retryCount = redisUtils.get(retryLimitCacheName);
-		if (null == retryCount) {
-			retryCount = 1;
-			redisUtils.set(retryLimitCacheName, retryCount);
-		}
-		int retryLimit = properties.getLogin().getRetryLimit();
-		if (retryCount > retryLimit) {
-			log.warn("username: " + username + " tried to login more than " + retryLimit + " times in period");
-			throw new LockedException(String.format("登录错误%d次，账号已锁定", retryCount));
-		}
-		else {
-			redisUtils.incr(retryLimitCacheName);
-		}
-
-		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-				authUser.getUsername(), authUser.getPassword());
-		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		String token = tokenProvider.createToken(authentication);
-		final AuthUser jwtUserDto = (AuthUser) authentication.getPrincipal();
-		// 保存在线信息
-		onlineUserService.save(jwtUserDto, token, request);
-		redisUtils.del(retryLimitCacheName);
-		JwtUserVO jwtUserVO = new JwtUserVO();
-		jwtUserVO.setUserInfo(jwtUserDto.toJwtUser());
-		jwtUserVO.setToken(token);
-		return R.data(jwtUserVO);
-	}
+	private final SysMenuService menuService;
 
 	@ApiOperation("获取用户信息")
 	@GetMapping("/info")
-	public R<JwtUserVO> getUserInfo(AuthUser authUser) {
-		JwtUserVO userVO = new JwtUserVO();
-		userVO.setUserInfo(authUser.toJwtUser());
-		return R.data(userVO);
+	public R<JwtUser> getUserInfo(AuthUser authUser) {
+		JwtUser jwtUser = authUser.toJwtUser();
+		return R.data(jwtUser);
 	}
 
-	@ApiOperation("退出登录")
-	@DeleteMapping(value = "/logout")
-	public R<Boolean> logout(HttpServletRequest request) {
-		String token = tokenProvider.getToken(request);
-		onlineUserService.removeByToken(token);
-		return R.data(Boolean.TRUE);
+	@GetMapping("/menus")
+	public R<List<MenuVO>> getMenus(AuthUser user) { // 1. 超级管理员
+		if (SecurityConstant.IS_ADMIN_YES.equals(user.getIsAdmin())) {
+			List<SysMenu> menuList = menuService.getAllMenu();
+			return R.data(MenuUtil.transformList(menuList));
+		}
+		// 2. 其他用户
+		List<RoleInfo> roleList = user.getRoleList();
+		if (roleList == null || roleList.isEmpty()) {
+			return R.data(Collections.emptyList());
+		}
+		Set<Long> roleIds = roleList.stream().map(RoleInfo::getId).collect(Collectors.toSet());
+		List<SysMenu> menuList = menuService.getNavByRoleIds(roleIds);
+		return R.data(MenuUtil.transformList(menuList));
 	}
 
 }

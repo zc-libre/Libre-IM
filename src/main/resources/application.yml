@@ -1,20 +1,61 @@
 server:
-  port: 9871
-  servlet:
-    context-path: /im
+  port: 9875
+
 spring:
   application:
-    name: Libre-IM
+    name: Libre
   profiles:
     active: dev
-  cache:
-    type: redis
-    redis:
-      time-to-live: 1h
+    include: quartz
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  mail:
+    protocol: smtp
+    test-connection: false
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: Libre
 
 mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
   global-config:
+    db-config:
+      id-type: assign_id
+      insert-strategy: not_null
+      update-strategy: not_null
+      where-strategy: not_null
+      table-underline: true
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
     banner: false
+
+libre:
+  security:
+    permit-all:
+      - /druid/**
+      - /favicon.ico
+      - /error
+      - /static/**
+      - /webjars*
+      - /webjars/**
+      - /upload/**
+      - /swagger-resources/**
+      - /v3/api-docs
+      - /v3/api-docs/swagger-config
+      - /doc.html
+      - /swagger-ui/**
+
+logging:
+  file:
+    path: './logs/'
 
 ---
 spring:
@@ -23,35 +64,62 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:3306/libre_im
+    url: jdbc:postgresql://127.0.0.1:5432/libre_blog
     username: postgres
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
-  mvc:
-    path-match:
-      matching-strategy: ant_path_matcher
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true
+  cache:
+    redis:
+      time-to-live: 2h
+      key-prefix: "libre:"
+  mail:
+    host: smtp.163.com
+    password: ESAHXBZHJYQRYLAR
+    username: librezc@163.com
+    port: 465
 
 libre:
   redisson:
     single:
       address: 127.0.0.1:6379
+  xss:
+    enabled: false
+  redis:
+    serializer-type: json
+  captcha:
+    enabled: true
+  swagger:
+    enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/libre
+    username: xxxxxxx
+    password: xxxxxxx
+    type: com.zaxxer.hikari.HikariDataSource
+  cache:
+    redis:
+      time-to-live: 2h
+      key-prefix: "libre:"
+  redis:
+    host: 127.0.0.1
+    password: 12345
+
+libre:
+  xss:
+    enabled: false
+  redis:
+    serializer-type: json
   security:
     jwt-token:
       secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
   captcha:
     enabled: true
   swagger:
-    authorization:
-      enabled: true
-
-logging:
-  level:
-    com.libre: debug
----
+    enabled: false
 
 

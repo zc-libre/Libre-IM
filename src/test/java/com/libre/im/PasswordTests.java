@@ -1,6 +1,5 @@
 package com.libre.im;
 
-import com.libre.core.security.RsaUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,8 +23,8 @@ public class PasswordTests {
 
     @Test
     void passwordBase64() {
-        String s = RsaUtil.encryptToBase64("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9iBNqpPdFxYlCnjpqYvwFIq8GIBGsNsX2zCVY5AUBgY9+QD5Q6+kwVOWvaQX3/WPBlxDtyKP080Th+jZvMGQmJtRtQkTVIXdQps5QSaujuXoOAQ0cRW1zpXNHxAts" +
-                "YvZTroZrFYZvn1bJl85Ur91DJVfOggPB+g/9DtgcgMVJSQIDAQAB", "123456");
-        System.out.println(s);
+//        String s = RsaUtil.encryptToBase64("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9iBNqpPdFxYlCnjpqYvwFIq8GIBGsNsX2zCVY5AUBgY9+QD5Q6+kwVOWvaQX3/WPBlxDtyKP080Th+jZvMGQmJtRtQkTVIXdQps5QSaujuXoOAQ0cRW1zpXNHxAts" +
+//                "YvZTroZrFYZvn1bJl85Ur91DJVfOggPB+g/9DtgcgMVJSQIDAQAB", "123456");
+//        System.out.println(s);
     }
 }
