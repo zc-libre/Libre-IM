@@ -57,7 +57,7 @@ public class DefaultSessionManager extends AbstractSessionManager {
         if (!channel.hasAttr(LibreIMConstants.SERVER_SESSION_ID)) {
             return false;
         }
-        String id = channel.attr(LibreIMConstants.SERVER_SESSION_ID).get();
-        return StringUtil.isNotBlank(id) && ObjectUtils.nullSafeEquals(String.valueOf(sessionId), id);
+        Long id = channel.attr(LibreIMConstants.SERVER_SESSION_ID).get();
+        return Objects.nonNull(id) && ObjectUtils.nullSafeEquals(sessionId, id);
     }
 }

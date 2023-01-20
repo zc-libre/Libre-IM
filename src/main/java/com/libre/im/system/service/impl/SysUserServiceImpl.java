@@ -106,10 +106,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return baseMapper.selectById(id);
 	}
 
+
 	@Override
 	@Cacheable(key = "#username")
 	public SysUser getByUsername(String username) {
-		return this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
+		return this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username)
+				.or()
+				.eq(SysUser::getPhone, username));
 	}
 
 	@Override

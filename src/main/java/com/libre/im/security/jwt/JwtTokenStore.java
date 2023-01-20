@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.im.common.security.dto.AuthUser;
 import com.libre.im.security.config.LibreSecurityProperties;
-import com.libre.im.security.pojo.vo.TokenVo;
+import com.libre.im.security.pojo.vo.TokenVO;
 import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.ip2region.core.IpInfo;
 import com.libre.redis.cache.RedisUtils;
@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -49,9 +50,9 @@ public class JwtTokenStore {
 	/**
 	 * 读取 token 信息
 	 * @param token token
-	 * @return TokenVo
+	 * @return TokenVO
 	 */
-	public TokenVo get(String token) {
+	public TokenVO get(String token) {
 		return redisCache.get(getCacheKeyByToken(token));
 	}
 
@@ -63,26 +64,29 @@ public class JwtTokenStore {
 	 * @param expireTime expireTime
 	 */
 	public void save(HttpServletRequest request, AuthUser authUser, String token, Duration expireTime) {
+
 		String storePrefix = jwtTokenProperties.getStorePrefix();
 		// key md5 避免太长，aes 后特别长
 		String key = DigestUtils.md5Hex(token);
 		String ip = RequestUtils.getIp(request);
 		UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader(HttpHeaders.USER_AGENT));
 		String browser = userAgent.getBrowser().getName();
-		TokenVo tokenVo = new TokenVo();
+
+		TokenVO tokenVo = new TokenVO();
+		tokenVo.setUserId(authUser.getUserId());
 		tokenVo.setUserName(authUser.getUsername());
 		tokenVo.setNickName(authUser.getNickName());
 		tokenVo.setBrowser(browser);
 		tokenVo.setIp(ip);
 		IpInfo ipInfo = searcher.memorySearch(ip);
-		if (ipInfo != null) {
-			tokenVo.setAddress(ipInfo.getAddress());
-		}
+		Optional.ofNullable(ipInfo).ifPresent(info -> tokenVo.setAddress(ipInfo.getAddress()));
+
 		// token 摘要，前6后8，中间4位占位符
 		tokenVo.setSummary(DesensitizationUtil.sensitive(token, 8, 8, CharPool.DOT, 4));
 		tokenVo.setKey(key);
 		tokenVo.setLoginTime(LocalDateTime.now());
 		String cacheKey = storePrefix + key;
+
 		redisCache.setEx(cacheKey, tokenVo, expireTime);
 	}
 
@@ -91,23 +95,23 @@ public class JwtTokenStore {
 	 * @param filter 过滤条件
 	 * @return token 结合
 	 */
-	public List<TokenVo> getAll(String filter) {
+	public List<TokenVO> getAll(String filter) {
 		String storePrefix = jwtTokenProperties.getStorePrefix();
 		Set<String> tokenSet = redisCache.scan(storePrefix + CharPool.STAR);
-		List<TokenVo> tokenVoList = new ArrayList<>();
+		List<TokenVO> tokenVOList = new ArrayList<>();
 		for (String cacheKey : tokenSet) {
-			TokenVo tokenVo = redisCache.get(cacheKey);
+			TokenVO tokenVo = redisCache.get(cacheKey);
 			if (StringUtil.isNotBlank(filter)) {
 				if (tokenVo.toString().contains(filter)) {
-					tokenVoList.add(tokenVo);
+					tokenVOList.add(tokenVo);
 				}
 			}
 			else {
-				tokenVoList.add(tokenVo);
+				tokenVOList.add(tokenVo);
 			}
 		}
-		tokenVoList.sort((o1, o2) -> o2.getLoginTime().compareTo(o1.getLoginTime()));
-		return tokenVoList;
+		tokenVOList.sort((o1, o2) -> o2.getLoginTime().compareTo(o1.getLoginTime()));
+		return tokenVOList;
 	}
 
 	/**
@@ -116,10 +120,10 @@ public class JwtTokenStore {
 	 * @param filter 过滤条件
 	 * @return token 集合
 	 */
-	public Page<TokenVo> page(Page<TokenVo> page, String filter) {
-		List<TokenVo> tokenVoList = getAll(filter);
-		page.setRecords(tokenVoList);
-		page.setTotal(tokenVoList.size());
+	public Page<TokenVO> page(Page<TokenVO> page, String filter) {
+		List<TokenVO> tokenVOList = getAll(filter);
+		page.setRecords(tokenVOList);
+		page.setTotal(tokenVOList.size());
 		return page;
 	}
 

@@ -14,8 +14,9 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class TokenVo implements Serializable {
+public class TokenVO implements Serializable {
 
+	private Long userId;
 	/**
 	 * 用户名
 	 */

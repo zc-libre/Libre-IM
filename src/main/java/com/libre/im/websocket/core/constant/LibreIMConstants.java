@@ -16,9 +16,9 @@ public class LibreIMConstants {
 
 	public final static String PONG = "PONG";
 
-	public final static AttributeKey<String> SERVER_SESSION_ID = AttributeKey.valueOf(SERVER_SESSION_KEY);
+	public final static AttributeKey<Long> SERVER_SESSION_ID = AttributeKey.valueOf(SERVER_SESSION_KEY);
 
-	public static final AttributeKey<String> SERVER_SESSION_HEART_BEAT = AttributeKey
+	public static final AttributeKey<Long> SERVER_SESSION_HEART_BEAT = AttributeKey
 			.valueOf(SERVER_SESSION_HEART_BEAT_KEY);
 
 	public final static String MESSAGE_TOPIC = "libre:im:message:topic";

@@ -3,7 +3,7 @@ package com.libre.im.security.jwt;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.im.common.security.dto.AuthUser;
 import com.libre.im.common.security.support.SecurityUtil;
-import com.libre.im.security.pojo.vo.TokenVo;
+import com.libre.im.security.pojo.vo.TokenVO;
 import com.libre.im.security.service.UserDetailServiceImpl;
 import com.libre.im.security.auth.SecWebAuthDetailsSource;
 import com.libre.toolkit.core.StringUtil;
@@ -46,7 +46,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			chain.doFilter(request, response);
 			return;
 		}
-		TokenVo tokenVo = jwtTokenStore.get(token);
+		TokenVO tokenVo = jwtTokenStore.get(token);
 		if (tokenVo == null) {
 			// jwt token 解析错误 401
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());

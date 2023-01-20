@@ -28,7 +28,7 @@ public abstract class AbstractSession implements Session {
         Assert.notNull(sessionId, "sessionId must not be null");
         this.sessionId = sessionId;
         this.channel = ctx.channel();
-        ctx.channel().attr(LibreIMConstants.SERVER_SESSION_ID).set(String.valueOf(sessionId));
+        ctx.channel().attr(LibreIMConstants.SERVER_SESSION_ID).set(sessionId);
     }
 
     @Override

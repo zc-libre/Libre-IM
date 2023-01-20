@@ -13,23 +13,15 @@ public abstract class AbstractSessionManager implements SessionManager {
 
     @Override
     public Session getSession(ChannelHandlerContext ctx) {
-        String sessionIdStr = ctx.channel().attr(LibreIMConstants.SERVER_SESSION_ID).get();
-        if (StringUtil.isNotBlank(sessionIdStr)) {
-            Long sessionId = Long.parseLong(sessionIdStr);
-            return getSession(sessionId);
-        }
-        return null;
+        Long sessionId = ctx.channel().attr(LibreIMConstants.SERVER_SESSION_ID).get();
+        return getSession(sessionId);
     }
 
 
     @Override
     public void remove(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
-        String sessionIdStr = channel.attr(LibreIMConstants.SERVER_SESSION_ID).get();
-        if (StringUtil.isBlank(sessionIdStr)) {
-            return;
-        }
-        long sessionId = Long.parseLong(sessionIdStr);
+        Long sessionId = channel.attr(LibreIMConstants.SERVER_SESSION_ID).get();
         remove(sessionId);
     }
 

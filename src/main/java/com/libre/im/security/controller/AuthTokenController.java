@@ -2,7 +2,7 @@ package com.libre.im.security.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.libre.im.security.pojo.vo.TokenVo;
+import com.libre.im.security.pojo.vo.TokenVO;
 import com.libre.im.security.jwt.JwtTokenStore;
 import com.libre.toolkit.result.R;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +40,7 @@ public class AuthTokenController {
 	@Operation(summary = "查询列表")
 	@GetMapping
 	@PreAuthorize("@sec.isAuthenticated()")
-	public R<Page<TokenVo>> query(PageDTO<TokenVo> page, String filter) {
+	public R<Page<TokenVO>> query(PageDTO<TokenVO> page, String filter) {
 		return R.data(tokenStore.page(page, filter));
 	}
 

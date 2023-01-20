@@ -63,6 +63,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		Set<String> dbAuthSet = Sets.newHashSet();
 		List<RoleInfo> roleInfoList = Lists.newArrayList();
 		SysRoleMapping roleMapping = SysRoleMapping.INSTANCE;
+
 		if (CollectionUtils.isNotEmpty(roleList)) {
 			roleInfoList.addAll(roleMapping.sourceToTarget(roleList));
 			// 获取角色

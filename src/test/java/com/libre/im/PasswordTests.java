@@ -17,7 +17,7 @@ public class PasswordTests {
 
     @Test
     void test() {
-        String encode = passwordEncoder.encode("123456");
+        String encode = passwordEncoder.encode("12345678");
         System.out.println(encode);
     }
 
